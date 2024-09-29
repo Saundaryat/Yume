@@ -42,7 +42,8 @@ class HealthAnalyzer:
         image = self.get_image(image_file)
         health_record = ""; #self.get_user_health_summary(user_id)
         result = self.chain.process_nutrition_and_health(image, health_record)
-        return result
+        print("resulttttt ", result)
+        return {"result": result}
 
     # def analyze_product(self, product):
     #     analysis = {

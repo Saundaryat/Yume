@@ -38,7 +38,7 @@ if st.button("Analyze Product"):
             if response.status_code == 200:
                 result = response.json()
                 st.write("### Analysis Result")
-                st.json(result)
+                st.markdown(result['result']['health_recommendation'])
             else:
                 st.error(f"Error {response.status_code}: {response.text}")
 

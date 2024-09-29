@@ -4,6 +4,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from models import NutritionalInfo, HealthRecommendation, NutritionFacts
 from langchain_google_vertexai import VertexAI
+from langchain.schema import AIMessage 
 
 class Chain:
     def __init__(self, df):
@@ -16,9 +17,9 @@ class Chain:
     def extract_nutritional_info(self, image):
         prompt = ChatPromptTemplate.from_template(
             "Extract all nutritional information from this image of a nutrition facts table. "
-            "Provide the output in a structured format in JSON convert all the values to string."
+            "Provide the output as a string."
         )
-        chain = prompt | self.vision_model | self.nutritional_parser
+        chain = prompt | self.vision_model 
         return chain.invoke({"image": image})
 
     def assess_health_compatibility(self, health_record, nutritional_info):
@@ -30,12 +31,12 @@ class Chain:
             "How processed and nutrient deficit is the product?"
             "Is it high in fats, sugar, sodium, calories?"
             "Are Harmful Ingredients present?"
-            "Provide the output in a structured format in JSON"
+            "Provide the output as a string."
         )
-        chain = prompt | self.llm | self.health_recommendation_parser
+        chain = prompt | self.llm 
         return chain.invoke({
             "health_record": health_record,
-            "nutritional_info": nutritional_info.model_dump_json()
+            "nutritional_info": nutritional_info
         })
 
     def assess_pros_cons(self, nutritional_info):
@@ -55,10 +56,13 @@ class Chain:
         nutritional_info = self.extract_nutritional_info(image)
         print("checking reccomendations   ", nutritional_info)
         #recommendation = self.assess_health_compatibility(health_record, nutritional_info)
-        reccomendations = self.assess_pros_cons(nutritional_info)
-        print("checking reccomendations   ", reccomendations)
+        recs = self.assess_pros_cons(nutritional_info)
+        if isinstance(recs, AIMessage):
+            recommendations_content = recs.content
+        else:
+            recommendations_content = recs 
+        print("checking reccomendations   ", recommendations_content)
         return {
-            "nutritional_info": nutritional_info,
-            "health_recommendation": reccomendations
+            "health_recommendation": recommendations_content
         }
 
