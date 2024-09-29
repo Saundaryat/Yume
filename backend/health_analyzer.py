@@ -40,7 +40,7 @@ class HealthAnalyzer:
     
     def analyze_product(self, image_file, user_id=None):
         image = self.get_image(image_file)
-        health_record = self.get_user_health_summary(user_id)
+        health_record = ""; #self.get_user_health_summary(user_id)
         result = self.chain.process_nutrition_and_health(image, health_record)
         return result
 

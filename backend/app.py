@@ -7,7 +7,7 @@ import pandas as pd
 class APP:
     def __init__(self, health_analyzer):
         self.app = Flask(__name__)
-        self.health_analyzer = health_analyzer()
+        self.health_analyzer = health_analyzer
         self.config = self.load_config()
         self.port = self.config.get('PORT', 5001)
         self.users_dict = self.init_users_dict()
@@ -37,19 +37,20 @@ class APP:
 
         @self.app.route('/analyze_product', methods=['POST'])
         def analyze_product():
-            data = request.json
-            image_file = data.get('image_file')
-            user_id = data.get('user_id')
-
-            if not image_file:
+            if 'image_file' not in request.files:
                 return jsonify({"error": "No image file provided"}), 400
 
-            image_path = os.path.join('data', 'product_image', image_file)
-            if not os.path.exists(image_path):
-                return jsonify({"error": "Image file not found"}), 404
+            image_file = request.files['image_file']  # File from frontend
+            user_id = request.form.get('user_id')
 
-            analysis_result = self.health_analyzer.analyze_product(image_path, user_id)
+            if not user_id:
+                return jsonify({"error": "No user ID provided"}), 400
+
+            # Directly pass the image file and user ID to analyze_product method
+            analysis_result = self.health_analyzer.analyze_product(image_file, user_id)
+
             return jsonify(analysis_result)
+
 
         @self.app.route('/user_health/<string:user_id>', methods=['GET'])
         def get_user_health(user_id):
