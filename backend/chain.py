@@ -108,26 +108,40 @@ class Chain:
         response = self.model.generate_content([prompt_calories_count, image])
         return response.text
 
-    def assess_health_compatibility(self, health_record, nutritional_info, meals_summary):
+    #### TODO: update prompt for meal summary, make it more instructive
+    def assess_health_compatibility(self, health_record, nutritional_info, meals_summary, preferences, target_nutrients):
         prompt = ChatPromptTemplate.from_template(
-            "Given the following health record and nutritional information, "
-            "assess whether the product is suitable for the user. "
-            "How processed and nutrient deficit is the product?"
-            "Is it high in fats, sugar, sodium, calories?"
-            "Are Harmful Ingredients present?"
-            "How many calories are consumed in the meals and how does it compare to the nutrients already consumed in meals?"
-            "Depending upon total calories already consumed in meal summary include that as well in your answer"
-            "Nutritional Information: {nutritional_info}\n"
-            "Health Record: {health_record}\n"
-            "Meals Summary: {meals_summary}\n"
-            "Provide the sources as well for the recommendations"
-            "Provide the output as a string."
+            "Analyze the compatibility of a food product with a user's health profile and dietary habits. "
+            "Use the following information:\n\n"
+            "1. Nutritional Information: {nutritional_info}\n"
+            "2. User's Health Record: {health_record}\n"
+            "3. User's Meals Summary: {meals_summary}\n"
+            "4. User's Preferences: {preferences}\n"
+            "5. User's Target Nutrients: {target_nutrients}\n\n"
+            "Provide a comprehensive assessment addressing the following points:\n"
+            "1. Product Suitability: Is the product suitable for the user based on their health record and preferences?\n"
+            "2. Processing Level: Evaluate how processed the product is and its nutrient density.\n"
+            "3. Nutritional Concerns: Assess if the product is high in fats, sugar, sodium, or calories relative to the user's needs and target nutrients.\n"
+            "4. Ingredient Safety: Identify any potentially harmful or allergenic ingredients.\n"
+            "5. Calorie Balance: Compare the product's calories to the user's daily intake from the meals summary and target calories.\n"
+            "6. Nutritional Balance: Evaluate how the product's nutrients complement or conflict with nutrients already consumed and target nutrients.\n"
+            "7. Health Impact: Discuss potential positive or negative effects on the user's health conditions.\n"
+            "8. Recommendations: Suggest portion sizes or alternatives if necessary.\n\n"
+            "Format your response as follows:\n"
+            "- Suitability: [Brief statement on overall suitability]\n"
+            "- Nutritional Analysis: [Detailed analysis of points 2-6]\n"
+            "- Health Considerations: [Analysis of point 7]\n"
+            "- Recommendations: [Actionable advice based on the analysis]\n"
+            "- Sources: [List relevant nutritional or medical sources used for this assessment]\n\n"
+            "Ensure your response is evidence-based, balanced, and tailored to the user's specific health profile, dietary habits, and target nutrients."
         )
         chain = prompt | self.llm 
         return chain.invoke({
             "health_record": health_record,
             "nutritional_info": nutritional_info,
-            "meals_summary": meals_summary
+            "meals_summary": meals_summary,
+            "preferences": preferences,
+            "target_nutrients": target_nutrients
         })
     
     # Extract health summary from a health record
@@ -136,6 +150,18 @@ class Chain:
             "Given the following health record, extract a concise summary of the patient's "
             "key health concerns, dietary restrictions, and allergies that are relevant for "
             "assessing food product suitability. Focus on information that could impact nutritional recommendations.\n\n"
+            "Health Record: {health_record}\n\n"
+            "Provide the output as a structured summary."
+        )
+        chain = prompt | self.llm
+        return chain.invoke({"health_record": health_record})
+    
+    # Compute the daily calorie/ nutrient intake of the user from health record
+    def get_daily_intake(self, health_record):
+        prompt = ChatPromptTemplate.from_template(
+            "Given the following health record, using medical conditions, height, weight, age, gender, activity level, "
+            "key health concerns, dietary restrictions, of the user, compute the daily calorie/ nutrient intake of the user. "
+            "Estimate how much calories,protein, carbohydrates, fats, sugar, sodium, fiber, vitamins, minerals, and water the user should consume daily. \n\n"
             "Health Record: {health_record}\n\n"
             "Provide the output as a structured summary."
         )
@@ -163,14 +189,21 @@ class Chain:
             return None
 
         user_records = self.df.loc[self.df['user_id'] == user_id, 'health_record']
-        
         if user_records.empty:
             print(f"Warning: No health record found for user_id: {user_id}")
-            return None
-
         health_record = user_records.iloc[0]
-        recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary)
 
+        user_preferences = self.df.loc[self.df['user_id'] == user_id, 'preferences']
+        if user_preferences.empty:
+            print(f"Warning: No preferences found for user_id: {user_id}")
+        preferences = user_preferences.iloc[0]
+
+        user_target_nutrients = self.df.loc[self.df['user_id'] == user_id, 'target_nutrients']
+        if user_target_nutrients.empty:
+            print(f"Warning: No target nutrients found for user_id: {user_id}")
+        target_nutrients = user_target_nutrients.iloc[0]
+
+        recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary, preferences, target_nutrients)
         if isinstance(recs, AIMessage):
             recommendations_content = recs.content
         else:

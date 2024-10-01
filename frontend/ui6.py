@@ -88,8 +88,8 @@ def load_lottie_file(filepath: str):
 def dashboard_tab(user_id):
     st.write("Welcome to the User Dashboard")
     
+    ### Upload Health Record
     uploaded_doc = st.file_uploader("Upload the health record document", type=["txt"])
-
     if st.button("Upload Health Record"):
         if uploaded_doc is None:
             st.error("Please upload the doc.")
@@ -115,6 +115,31 @@ def dashboard_tab(user_id):
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
+    ### Add User Preferences    
+    user_preferences = st.text_input("Enter Your Preferences: vegan? keto? looking to lose weight? etc.\n\n"
+                                     "Also what is your activity level? sedentary, active, very active?")
+    if st.button("Add Your Preferences"):
+        if user_preferences is None:
+            st.error("Please enter your preferences.")
+        elif not user_id:
+            st.error("Please enter your User ID.")
+        else:
+            try:
+                data = {
+                    'user_id': user_id,
+                    'preferences': user_preferences
+                }
+                headers = {'Content-Type': 'application/json'}
+                api_url = "http://localhost:5001/preferences/"
+                response = requests.post(api_url, json=data, headers=headers)
+
+                if response.status_code == 200:
+                    st.success(f"Preferences '{user_preferences}' added successfully!")
+                else:
+                    st.error(f"Error {response.status_code}: {response.text}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
 def calorie_intake_tab(user_id):
     st.write("Calorie Intake Calculator")
     
@@ -124,7 +149,7 @@ def calorie_intake_tab(user_id):
     # Input for meal type
     meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Snacks"])
     
-    if st.button("Calculate Calories"):
+    if st.button("Add Meal"):
         if uploaded_file is None:
             st.error("Please upload an image of your meal.")
         elif not user_id:
