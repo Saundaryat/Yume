@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+from streamlit_lottie import st_lottie
+import json
 
 def scan_tab(user_id):
     uploaded_file = st.file_uploader("Upload an image for product analysis", type=["jpg", "png", "jpeg"])
@@ -22,13 +24,66 @@ def scan_tab(user_id):
 
                 if response.status_code == 200:
                     result = response.json()
-                    st.write("### Analysis Result")
-                    st.markdown(result['result']['health_recommendation'])
-                    st.image(uploaded_file)
+
+                    col1, col2 = st.columns([5, 3])  
+
+                    # Display analysis result on the left column
+                    with col1:
+                        st.write("### Analysis Result")
+                        st.markdown(result['result']['health_recommendation'])
+                        st.image(uploaded_file, use_column_width='auto')  # Reduce image size
+
+                    # Display exercises and calorie burn on the right column
+                    with col2:
+                        burn_calories_from_excercises(result['result']['excercises_result'])
+
+
                 else:
                     st.error(f"Error {response.status_code}: {response.text}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
+
+def burn_calories_from_excercises(excercises_result):
+    st.write("### Burn Calories with Exercise")
+    
+    try:
+        # Parse the excercises_result JSON string into a Python dictionary
+        excercises_data = json.loads(excercises_result)
+
+        # Load Lottie animations for each exercise
+        cycling_lottie = load_lottie_file("frontend/animation/cycling.json")
+        swimming_lottie = load_lottie_file("frontend/animation/swimming.json")
+        running_lottie = load_lottie_file("frontend/animation/running.json")
+
+        # Display Cycling data with Lottie animation
+        if 'cycling' in excercises_data:
+            st.markdown(f"**Cycling**: {excercises_data['cycling']}")
+            if cycling_lottie:
+                st_lottie(cycling_lottie, height=150, width=150)
+
+        # Display Swimming data with Lottie animation
+        if 'swimming' in excercises_data:
+            st.markdown(f"**Swimming**: {excercises_data['swimming']}")
+            if swimming_lottie:
+                st_lottie(swimming_lottie, height=150, width=150)
+
+        # Display Running data with Lottie animation
+        if 'running' in excercises_data:
+            st.markdown(f"**Running**: {excercises_data['running']}")
+            if running_lottie:
+                st_lottie(running_lottie, height=150, width=150)
+
+    except json.JSONDecodeError as e:
+        st.error(f"Failed to parse exercises data: {e}")
+
+def load_lottie_file(filepath: str):
+    """Load Lottie animation from a local file."""
+    try:
+        with open(filepath, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        st.error(f"An error occurred while loading the Lottie animation from {filepath}: {e}")
+        return None
 
 def dashboard_tab(user_id):
     st.write("Welcome to the User Dashboard")
@@ -99,15 +154,25 @@ def calorie_intake_tab(user_id):
                 st.error(f"An error occurred: {e}")
 
 def main():
-    st.title("YuMe")
-    
+    col1, col2 = st.columns([1, 5])  # Adjust the width ratios as necessary
+
+    with col1:
+        st.title("YuMe")
+
+    with col2:
+        lottie_animation = load_lottie_file("frontend/animation/yumegrad.json")
+        if lottie_animation:
+            st_lottie(lottie_animation, height=100, width=100)
+        else:
+            st.error("Failed to load animation.")
+
     user_id = st.text_input("Enter your User ID")
 
-    tab1, tab2, tab3 = st.tabs(["Scan", "Dashboard", "Calorie Intake"])
+    tab1, tab2, tab3 = st.tabs(["Analyze Product & Burn Calories", "User Profile", "Calorie Intake"])
     
     with tab1:
         scan_tab(user_id)
-    
+
     with tab2:
         dashboard_tab(user_id)
 

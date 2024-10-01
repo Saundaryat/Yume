@@ -47,7 +47,8 @@ class Chain:
 
             Present the information in a structured format, focusing on accuracy and completeness.
             If any information is not visible or available, indicate that it's not provided.
-            The output should be a JSON object with the following structure:
+            Please estimate the calories_per_serving on your own if not provided.
+            Format the output using the following structure:
             {
                 "product_name": "Product name and brand",
                 "serving_size": "Serving size",
@@ -69,6 +70,22 @@ class Chain:
         response = self.model.generate_content([prompt_nutritional_info, image])
         return response.text
     
+
+    def calculate_expenditure_in_excercise(self, calories):
+        prompt_calculate_excercise = f"""
+        Provide a rough estimate of the time required to burn {calories} calories for an average adult doing moderate-intensity exercise. 
+        Give only the estimates in this format, with no additional text:
+        Format the output using the following structure:
+        {{
+            "cycling": "X minutes",
+            "swimming": "Y minutes",
+            "running": "Z minutes"
+        }}
+        """
+
+        response = self.model.generate_content(prompt_calculate_excercise)
+        return response.text
+    
     def extract_calories_info(self, image):
         img = PIL.Image.open(image)
         buffer = io.BytesIO()
@@ -79,7 +96,7 @@ class Chain:
            Provide a rough estimate of the calorie count, and break it down into approximate amounts of protein, carbohydrates, 
            and fats. Keep the estimates general, focusing on typical nutritional values for the types of 
            food visible in the image, without the need for precise measurements always give the preference to the lower side of the estimate.
-           Give the output in the following format in the form of a JSON object:
+           Format the output using the following structure:
            {
                "calories": "{calories}",
                "protein": "{protein}",
@@ -140,7 +157,7 @@ class Chain:
 
     def process_nutrition_and_health(self, image, user_id=None, meals_summary=None):
         nutritional_info = self.extract_nutritional_info(image)
-        # print("checking reccomendations   ", nutritional_info)
+        #print("checking reccomendations   ", nutritional_info)
         if user_id is None or self.df.empty or 'user_id' not in self.df.columns:
             print("Warning: Unable to retrieve health record. User ID is None or DataFrame is invalid.")
             return None
@@ -153,11 +170,12 @@ class Chain:
 
         health_record = user_records.iloc[0]
         recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary)
+
         if isinstance(recs, AIMessage):
             recommendations_content = recs.content
         else:
             recommendations_content = recs 
-        return recommendations_content
+        return recommendations_content,nutritional_info
     
     def calculate_calories(self, image, user_id=None):
         nutritional_info = self.extract_calories_info(image)
@@ -176,3 +194,7 @@ class Chain:
         nutritional_info = self.extract_nutritional_info(image)
         return {"nutritional_info": nutritional_info}
     
+    def calculate_exercise(self, calories=None):
+        excercise = self.calculate_expenditure_in_excercise(calories)
+        print("excercises ", excercise)
+        return excercise

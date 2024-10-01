@@ -32,11 +32,19 @@ class APP:
 
             # Directly pass the image file and user ID to analyze_product method
             analysis_result = self.health_analyzer.analyze_product(image_file, user_id)
+            nutritional_info = json.loads(analysis_result.get("nutritional_info"))
+            
+            calories = nutritional_info['calories_per_serving']
+            calories = float(''.join(filter(str.isdigit, calories.split('.')[0])))
+            
+            exercises_result = self.health_analyzer.calculate_exercise(calories)
 
             serializable_result = {
                 "result": {
-                    "health_recommendation": analysis_result.get("result", "No recommendation available")
+                    "health_recommendation": analysis_result.get("result", "No recommendation available"),
+                    "excercises_result": exercises_result
                 }
+                
             }
             return jsonify(serializable_result)
 

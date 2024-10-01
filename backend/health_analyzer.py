@@ -97,8 +97,11 @@ class HealthAnalyzer:
 
     def analyze_product(self, image_file, user_id=None):
         meals_summary = self.get_meals_summary_by_user(user_id)
-        result = self.chain.process_nutrition_and_health(image_file, user_id, meals_summary)
-        return {"result": result}
+        reccomendations, nutritional_info  = self.chain.process_nutrition_and_health(image_file, user_id, meals_summary)
+        return {"result": reccomendations, "nutritional_info": nutritional_info}
+    
+    def calculate_exercise(self, calories=None):
+        return self.chain.calculate_exercise(calories)
     
     def calculate_calories(self, image_file, user_id=None, meal_type=None):
         result = self.chain.calculate_calories(image_file, user_id)
@@ -145,3 +148,4 @@ class HealthAnalyzer:
             error_message = f"An error occurred while retrieving meal summary: {str(e)}"
             print(error_message)
             return {"error": error_message}
+    
