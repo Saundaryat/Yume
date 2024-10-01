@@ -40,6 +40,31 @@ class APP:
             }
             return jsonify(serializable_result)
 
+        @self.app.route('/calculate_calories', methods=['POST'])
+        def calculate_calories():
+            print("checking request.files", request.files)
+            if 'image_file' not in request.files:
+                print("No image file provided")
+                return jsonify({"error": "No image file provided"}), 400
+
+            image_file = request.files['image_file']  # File from frontend
+            user_id = request.form.get('user_id')
+            meal_type = request.form.get('meal_type')
+            print("meall typee ", meal_type)
+
+            if not user_id:
+                print("No user ID provided")
+                return jsonify({"error": "No user ID provided"}), 400
+
+            # Directly pass the image file and user ID to analyze_product method
+            analysis_result = self.health_analyzer.calculate_calories(image_file, user_id, meal_type)
+
+            serializable_result = {
+                "result": {
+                    "health_recommendation": analysis_result.get("result", "No recommendation available")
+                }
+            }
+            return jsonify(serializable_result)
 
         @self.app.route('/user_health/<string:user_id>', methods=['GET'])
         def get_user_health(user_id):

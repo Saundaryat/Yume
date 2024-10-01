@@ -68,22 +68,48 @@ class Chain:
 
         response = self.model.generate_content([prompt_nutritional_info, image])
         return response.text
+    
+    def extract_calories_info(self, image):
+        img = PIL.Image.open(image)
+        buffer = io.BytesIO()
+        img.save(buffer, format="PNG")
+        image = Image.from_bytes(buffer.getvalue())
+        prompt_calories_count = """
+           Please estimate the total calories in this image, assuming the food shown is a single serving for one person. 
+           Provide a rough estimate of the calorie count, and break it down into approximate amounts of protein, carbohydrates, 
+           and fats. Keep the estimates general, focusing on typical nutritional values for the types of 
+           food visible in the image, without the need for precise measurements always give the preference to the lower side of the estimate.
+           Give the output in the following format in the form of a JSON object:
+           {
+               "calories": "{calories}",
+               "protein": "{protein}",
+               "carbohydrates": "{carbohydrates}",
+               "fats": "{fats}"
+           }
+           """
 
-    def assess_health_compatibility(self, health_record, nutritional_info):
+        response = self.model.generate_content([prompt_calories_count, image])
+        return response.text
+
+    def assess_health_compatibility(self, health_record, nutritional_info, meals_summary):
         prompt = ChatPromptTemplate.from_template(
             "Given the following health record and nutritional information, "
             "assess whether the product is suitable for the user. "
             "How processed and nutrient deficit is the product?"
             "Is it high in fats, sugar, sodium, calories?"
             "Are Harmful Ingredients present?"
+            "How many calories are consumed in the meals and how does it compare to the nutrients already consumed in meals?"
+            "Depending upon total calories already consumed in meal summary include that as well in your answer"
             "Nutritional Information: {nutritional_info}\n"
             "Health Record: {health_record}\n"
+            "Meals Summary: {meals_summary}\n"
             "Provide the output as a string."
         )
         chain = prompt | self.llm 
         return chain.invoke({
             "health_record": health_record,
-            "nutritional_info": nutritional_info
+            "nutritional_info": nutritional_info,
+            "meals_summary": meals_summary
         })
     
     # Extract health summary from a health record
@@ -111,7 +137,7 @@ class Chain:
         chain = prompt | self.llm
         return chain.invoke({"nutritional_info": nutritional_info})
 
-    def process_nutrition_and_health(self, image, user_id=None):
+    def process_nutrition_and_health(self, image, user_id=None, meals_summary=None):
         nutritional_info = self.extract_nutritional_info(image)
         # print("checking reccomendations   ", nutritional_info)
         if user_id is None or self.df.empty or 'user_id' not in self.df.columns:
@@ -125,11 +151,24 @@ class Chain:
             return None
 
         health_record = user_records.iloc[0]
-        recs = self.assess_health_compatibility(health_record, nutritional_info)
+        recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary)
         if isinstance(recs, AIMessage):
             recommendations_content = recs.content
         else:
             recommendations_content = recs 
+        return recommendations_content
+    
+    def calculate_calories(self, image, user_id=None):
+        nutritional_info = self.extract_calories_info(image)
+        print("checking nutritional info   ", nutritional_info)
+        if user_id is None or self.df.empty or 'user_id' not in self.df.columns:
+            print("Warning: Unable to retrieve health record. User ID is None or DataFrame is invalid.")
+            return None
+
+        if isinstance(nutritional_info, AIMessage):
+            recommendations_content = nutritional_info.content
+        else:
+            recommendations_content = nutritional_info 
         return recommendations_content
 
     def print_nutritional_info(self, image):
