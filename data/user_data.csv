@@ -126,41 +126,284 @@ Date of Examination: 10/01/2024
 
 ## Allergies:
 - Penicillin (rash)
-","## Patient Nutritional Summary: John Doe (JD72102454)
+","**Patient: John Doe (JD72102454)**
 
 **Key Health Concerns (relevant to nutrition):**
 
-* **Chronic Liver Disease:** Requires attention to protein intake, sodium restriction, and avoidance of alcohol.  Liver function tests indicate some impairment.
-* **Hypercholesterolemia:** Requires a low-cholesterol, low-saturated fat diet. Lipid panel shows elevated total cholesterol, LDL, triglycerides, and non-HDL cholesterol.
-* **Coronary Artery Disease:** Requires a heart-healthy diet focusing on fruits, vegetables, whole grains, and lean protein sources.  Limit saturated and trans fats, sodium, and added sugars.
-* **Chronic Kidney Disease, Stage 3:** Requires monitoring of protein, phosphorus, potassium, and sodium intake. Kidney function tests show reduced eGFR and elevated BUN and creatinine.  
-* **Overweight/Obesity (BMI 26.8):**  Weight management through calorie control and healthy dietary choices is necessary.
-* **Prediabetes/Insulin Resistance (HbA1c 6.1, Fasting Glucose 110 mg/dL):**  Requires a focus on carbohydrate control and blood sugar management.  
+* **Chronic Liver Disease:** Impacts nutrient metabolism and may require adjustments to protein, fat, and carbohydrate intake.  Elevated liver enzymes suggest ongoing liver damage.
+* **Hypercholesterolemia:** Requires a low-cholesterol diet. Elevated LDL and triglycerides necessitate limiting saturated and trans fats. Low HDL should be addressed with increased intake of healthy fats and potentially increased fiber.
+* **Chronic Kidney Disease, Stage 3:** Requires monitoring of protein, phosphorus, potassium, and sodium intake.  Reduced kidney function impacts waste elimination and electrolyte balance.
+* **Coronary Artery Disease:** Requires a heart-healthy diet focusing on limiting saturated and trans fats, sodium, and added sugars.
+* **Overweight (BMI 26.8):**  Weight management through dietary changes is important for all of the above conditions.
+* **Vitamin D Deficiency:** Supplementation may be necessary.
+
 
 **Dietary Restrictions:**
 
 * **Low Cholesterol:** Due to hypercholesterolemia.
-* **Low Saturated Fat:** Due to hypercholesterolemia and coronary artery disease.
-* **Controlled Sodium:** Due to chronic kidney disease.  Swelling in legs may also indicate fluid retention, further supporting sodium restriction.
-* **Controlled Protein:** Due to chronic kidney disease.  However, sufficient protein is also important due to chronic liver disease. Careful balance and monitoring are crucial.
-* **Controlled Potassium:** Due to chronic kidney disease.
-* **Controlled Phosphorus:** Due to chronic kidney disease.
-* **Controlled Fluid Intake:**  Potential restriction based on leg swelling (edema) and furosemide prescription, suggesting fluid retention. Requires careful assessment.
-* **Avoid Alcohol:** Due to chronic liver disease.
-
+* **Potentially restricted Potassium, Phosphorus, and Protein:** Due to Chronic Kidney Disease Stage 3. Further assessment needed to determine specific restrictions.
+* **Likely Sodium Restriction:** Due to hypertension (elevated blood pressure), CKD, and CAD.
 
 **Allergies:**
 
-* **Penicillin (rash):** While not directly related to nutrition, this allergy is crucial for overall patient care.  
+* **Penicillin (rash):** Not directly relevant to food product suitability but important to note for general medical care.
 
 
-**Other Considerations:**
+**Other Relevant Information:**
 
-* Vitamin D insufficiency (28 ng/mL) should be addressed through supplementation or dietary adjustments.
-* Patient reports fatigue, which could be related to various factors including nutritional deficiencies or the underlying health conditions. Further assessment is warranted.
-* Current medications (Atorvastatin, Metoprolol, Furosemide, Lisinopril) should be considered when making dietary recommendations as they may interact with certain foods or nutrients.
+* **Elevated liver enzymes (ALT, AST, Gamma GT):** Indicates ongoing liver damage and reinforces the need for careful dietary management.
+* **Mild Anemia:** Low hemoglobin and hematocrit might require attention to iron and vitamin B12 status.  However, levels are not critically low.
+* **Elevated inflammatory markers (CRP, ESR):** Suggest underlying inflammation, which could be influenced by diet.
 
 
-This summary provides a starting point for nutritional assessment and requires further personalized evaluation by a registered dietitian or qualified healthcare professional.  Individualized meal planning and dietary counseling are essential for optimizing patient outcomes.
+This summary focuses on information relevant to nutritional recommendations.  A registered dietitian should perform a comprehensive assessment and create a personalized nutrition plan based on the patient's full medical history and individual needs.
+"
+652ef3bf-294b-43dc-ab46-7ec306ae598e,Saundarya Tyagi,98994567890,saun@example.com,,
+959f60ca-8e83-4e4a-a983-8c72c52f62f5,aaradhya saxena,9639293454,saxena@example.com,"# Comprehensive Medical Report - Based on Actual Test Results
+
+Patient ID: 042312050017
+Name: Mr. Aaradhya Saxena
+DOB: 27/11/1997 (Age: 26 years)
+Sex: Male
+Date of Examination: 05/Dec/2023
+
+## Chief Complaints:
+- None reported. Routine medical examination.
+
+## Medical History:
+- Not provided in the test results
+
+## Vital Signs:
+- Blood Pressure: 110/70
+- Heart Rate: 52
+- Respiratory Rate: 14 breaths/min
+- Temperature: 98.6 F
+- Weight: 62 kg
+- Height: 170 cm
+- BMI: 21.4
+
+## Laboratory Results:
+
+### Hematology:
+- Complete Blood Count (CBC):
+  * WBC: 6900 /cu.mm (Reference: 4000-10000)
+  * RBC: 5.46 million/cumm (Reference: 4.5-5.5)
+  * Hemoglobin: 15.8 g/dL (Reference: 13.0-17.0)
+  * Hematocrit (PCV): 47.7 % (Reference: 40-50)
+  * MCV: 87.4 fl (Reference: 83-101)
+  * MCH: 29.0 pg (Reference: 27-32)
+  * MCHC: 33.2 g/dl (Reference: 31.5-34.5)
+  * RDW (CV): 12.4 % (Reference: 11.60 - 14.0)
+  * Platelets: 1.99 Lac/cu.mm (Reference: 1.5-4.1)
+
+- Differential Leukocyte Count:
+  * Neutrophils: 64 % (Reference: 40 - 80)
+  * Lymphocytes: 30 % (Reference: 20 - 40%)
+  * Eosinophils: 02 % (Reference: 1 - 6)
+  * Monocytes: 04 % (Reference: 2 - 10)
+  * Basophils: 00 % (Reference: <1 - 2)
+  * Immature Cells: 00 %
+
+- Erythrocyte Sedimentation Rate (ESR): 02 mm/hr (Reference: 0-10)
+
+### Biochemistry:
+- Fasting Plasma Glucose: 87.6 mg/dl (Reference: 74-100)
+- Creatinine: 0.90 mg/dL (Reference: 0.72-1.18)
+
+### Lipid Profile:
+- Total Cholesterol: 159.8 mg/dl (Reference: <200 Desirable)
+- Triglycerides: 103.2 mg/dl (Reference: <150 Normal)
+- HDL Cholesterol: 43.2 mg/dl (Reference: <40 Low, >60 High)
+- LDL Cholesterol: 106.6 mg/dl (Reference: <100 Optimal)
+- VLDL Cholesterol: 10.0 mg/dl (Reference: 25-40)
+- Cholesterol : HDL Cholesterol Ratio: 3.7 (Reference: Low risk 3.3-4.4)
+- HDL-C : LDL-C Ratio: 0.41 (Reference: 0.30 - 0.40)
+
+### Liver Function Tests:
+- Bilirubin Total: 1.1 mg/dl (Reference: 0.2-1.2)
+- Bilirubin Direct: 0.5 mg/dl (Reference: 0.1 - 0.4)
+- Bilirubin Indirect: 0.6 mg/dl (Reference: 0.1-0.7)
+- Alkaline Phosphatase: 87.3 U/L (Reference: 40-129)
+- ALT/SGPT: 20.7 U/L (Reference: 0 - 34)
+- AST/SGOT: 22.9 U/L (Reference: 0-31)
+- SGOT/SGPT Ratio: 1.11
+- Total Protein: 7.2 g/dL (Reference: 6.4-8.3)
+- Albumin: 5.1 gm/dl
+- Globulin: 2.1 gm/dl (Reference: 2.0 - 3.5)
+- A/G Ratio: 2.4 (Reference: 0.8 - 1.2)
+
+### Other Tests:
+- Uric Acid: 5.0 mg/dl (Reference: 3.5 - 7.2)
+
+### Hormones:
+- T3, Total: 1.57 ng/ml (Reference: 0.8-2.0)
+- T4 Total: 12.6 μg/dl (Reference: 4.82-15.65)
+- TSH: 2.60 μIU/mL (Reference: 0.4 - 4.5)
+
+### Urinalysis:
+- Color: Pale Yellow
+- Appearance: Clear
+- Specific Gravity: 1.005 (Reference: 1.002 - 1.030)
+- pH: Acidic (6.0)
+- Protein: Nil
+- Sugar: Nil
+- Pus Cells: Occasional /H.P.F
+- RBC: Nil /H.P.F
+- Epithelial Cells: Occasional /H.P.F
+- Casts: Nil
+- Crystals: Nil
+
+## Imaging Studies:
+- Not provided in the test results
+
+## Additional Notes:
+- Overall, the test results are within normal ranges with a few minor exceptions.
+- Direct Bilirubin is slightly elevated.
+- A/G Ratio is higher than the reference range.
+- HDL Cholesterol is borderline low.
+
+## Current Medications:
+- Not provided in the test results
+
+## Allergies:
+- Not provided in the test results
+","**Summary of Patient Health Information for Nutritional Assessment:**
+
+* **Key Health Concerns:**  Slightly elevated direct bilirubin and A/G ratio, borderline low HDL cholesterol.  These findings are noted as minor and overall lab results are within normal ranges.  Blood pressure reading of 75/110 should be confirmed and monitored, but is unlikely to impact general nutrition recommendations.
+* **Dietary Restrictions:** None specified.
+* **Allergies:** None specified.
+
+**Additional Notes:**  A complete medical history and current medications would be beneficial for a comprehensive nutritional assessment.  The patient is currently not reporting any chief complaints and has undergone a routine medical examination.  While the blood pressure reading is outside the normal range, it doesn't directly impact dietary restrictions without further context.
+"
+ba543f18-233a-4488-a4f1-7cc2bab2f56a,captain america,100,iamboss@example.com,"Patient ID: SR07041918
+Name: Steve Rogers (Captain America)
+DOB: 07/04/1918 (Chronological age: 106, Biological age: ~35)
+Sex: Male
+Date of Examination: 10/01/2024
+
+## Chief Complaints:
+- None reported. Routine Avengers physical examination.
+
+## Medical History:
+- Received super-soldier serum in 1943
+- Frozen in ice for ~70 years (1945-2011)
+- Multiple combat-related injuries with rapid healing
+
+## Vital Signs:
+- Blood Pressure: 110/60 mmHg
+- Heart Rate: 40 bpm
+- Respiratory Rate: 10 breaths/min
+- Temperature: 36.9°C (98.4°F)
+- Weight: 108 kg (240 lbs)
+- Height: 188 cm (6'2"")
+- BMI: 30.5 kg/m² (Note: BMI not applicable due to enhanced muscle mass)
+- Oxygen Saturation: 100% on room air
+
+## Laboratory Results:
+
+### Hematology:
+- Complete Blood Count (CBC):
+  * WBC: 12.0 x 10^9/L (Reference: 4.5-11.0) [Elevated due to enhanced immune system]
+  * RBC: 7.2 x 10^12/L (Reference: 4.5-5.9) [Elevated due to enhanced oxygen-carrying capacity]
+  * Hemoglobin: 22.0 g/dL (Reference: 13.5-17.5) [Elevated]
+  * Hematocrit: 55% (Reference: 41-53) [Elevated]
+  * MCV: 90 fL (Reference: 80-100)
+  * MCH: 30 pg (Reference: 27-33)
+  * MCHC: 34 g/dL (Reference: 32-36)
+  * RDW: 12% (Reference: 11.5-14.5)
+  * Platelets: 400 x 10^9/L (Reference: 150-450) [High normal, enhanced clotting ability]
+
+### Lipid Panel:
+- Total Cholesterol: 120 mg/dL (Reference: <200)
+- LDL Cholesterol: 60 mg/dL (Reference: <100)
+- HDL Cholesterol: 80 mg/dL (Reference: >40) [Significantly elevated]
+- Triglycerides: 50 mg/dL (Reference: <150)
+
+### Liver Function Tests:
+- ALT: 25 U/L (Reference: 7-56)
+- AST: 28 U/L (Reference: 10-40)
+- Alkaline Phosphatase: 70 U/L (Reference: 44-147)
+- Total Protein: 8.0 g/dL (Reference: 6.0-8.3) [High normal]
+- Albumin: 5.0 g/dL (Reference: 3.5-5.0) [Upper limit]
+
+### Kidney Function Tests:
+- BUN: 15 mg/dL (Reference: 7-20)
+- Creatinine: 1.2 mg/dL (Reference: 0.7-1.3) [High normal due to increased muscle mass]
+- eGFR: >120 mL/min/1.73m^2 (Reference: >60) [Significantly elevated]
+
+### Electrolytes:
+- Sodium: 140 mEq/L (Reference: 136-145)
+- Potassium: 4.5 mEq/L (Reference: 3.5-5.1)
+- Chloride: 102 mEq/L (Reference: 98-107)
+- Bicarbonate: 26 mEq/L (Reference: 22-29)
+- Calcium: 10.0 mg/dL (Reference: 8.6-10.2) [High normal]
+
+### Glucose Metabolism:
+- Fasting Blood Glucose: 80 mg/dL (Reference: 70-99)
+- HbA1c: 4.8% (Reference: <5.7) [Optimal]
+
+### Hormones:
+- Testosterone: 1200 ng/dL (Reference: 264-916) [Significantly elevated]
+- Cortisol: 12 μg/dL (Reference: 6-23) [Optimal stress response]
+
+### Vitamins and Minerals:
+- Vitamin D, 25-Hydroxy: 70 ng/mL (Reference: 30-100)
+- Vitamin B12: 1000 pg/mL (Reference: 200-900) [Elevated]
+- Iron: 150 μg/dL (Reference: 65-175) [High normal]
+
+### Inflammatory Markers:
+- C-Reactive Protein (CRP): 0.2 mg/L (Reference: <3.0) [Minimal inflammation]
+- Erythrocyte Sedimentation Rate (ESR): 1 mm/hr (Reference: 0-20) [Minimal inflammation]
+
+## Imaging Studies:
+- Chest X-ray: Enhanced bone density. Lung capacity appears 50% greater than average.
+- MRI Brain: Increased neural connectivity and enhanced brain volume.
+- DEXA Scan: Bone density 3x normal levels. Muscle mass 2x normal levels.
+
+## Physical Fitness Test Results:
+- 2-mile run time: 3:30 minutes [Far exceeds normal human capability]
+- Push-ups: 1,000 in 2 minutes [Far exceeds normal human capability]
+- Pull-ups: 100 consecutive [Far exceeds normal human capability]
+- Bench Press: 1,200 lbs (544 kg) [Far exceeds normal human capability]
+
+## Psychological Evaluation:
+- Exceptional leadership qualities
+- High moral character and sense of duty
+- Remarkable resilience to trauma and stress
+- Rapid adaptation to modern era despite time displacement
+
+## Current Medications:
+- None
+
+## Allergies:
+- None known
+
+## Additional Notes:
+- Superhuman strength, speed, agility, and durability
+- Exceptionally rapid healing and cellular regeneration
+- Immunity to most known diseases and toxins
+- Delayed aging process
+- Enhanced mental processing and memory retention
+","## Steve Rogers - Nutritional Summary
+
+**Key Health Concerns (relevant to nutrition):**
+
+* **Extremely high muscle mass:**  Requires significantly higher protein intake than average.
+* **Elevated metabolic rate:** Likely due to enhanced physical capabilities and cellular regeneration; suggests higher caloric needs.
+* **Enhanced oxygen-carrying capacity:** May influence micronutrient requirements (e.g., iron).
+* **Atypical physiology due to super-soldier serum:**  Standard nutritional guidelines may not be fully applicable.
+
+**Dietary Restrictions:**
+
+* None noted.
+
+**Allergies:**
+
+* None known.
+
+
+**Additional Considerations:**
+
+* Although no specific dietary restrictions are listed, careful monitoring of caloric intake and macronutrient ratios is crucial to support his unique physiology and prevent excessive weight gain (despite elevated metabolism).  Further investigation may be needed to determine optimal micronutrient intake for his enhanced biology.  Standard BMI is not applicable.
 "
 c03de76c-94c2-4b37-aa2a-ea37391d2d6e,John Doe,1234567890,johndoe@example.com,,

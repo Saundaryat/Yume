@@ -103,6 +103,7 @@ class Chain:
             "Nutritional Information: {nutritional_info}\n"
             "Health Record: {health_record}\n"
             "Meals Summary: {meals_summary}\n"
+            "Provide the sources as well for the recommendations"
             "Provide the output as a string."
         )
         chain = prompt | self.llm 

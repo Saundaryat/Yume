@@ -77,6 +77,7 @@ Date of Examination: 10/01/2024
 ### Glucose Metabolism:
 - Fasting Blood Glucose: 110 mg/dL (Reference: 70-99)
 - HbA1c: 6.1% (Reference: <5.7)
+- Oral Glucose Tolerance Test: 205 mg/dL at 2 hours (Reference: <140 mg/dL)
 
 ### Thyroid Function:
 - TSH: 2.8 mIU/L (Reference: 0.4-4.0)
