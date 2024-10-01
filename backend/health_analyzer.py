@@ -60,7 +60,8 @@ class HealthAnalyzer:
                 'phone': phone, 
                 'email': email, 
                 'health_record': '', 
-                'health_summary': ''
+                'health_summary': '',
+                'preferences': ''
             }
             self.user_data.to_csv('data/user_data.csv', index=False)
             return {"user_id": user_id, "message": "User created successfully"}

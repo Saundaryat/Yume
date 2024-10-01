@@ -93,7 +93,7 @@ def main():
     user_id = st.text_input("Enter your User ID")
 
     # Create tabs
-    tab1, tab2 = st.tabs(["Scan", "Dashboard"])
+    tab1, tab2 = st.tabs(["Analyze Product", "User Profile"])
     
     with tab1:
         scan_tab(user_id)

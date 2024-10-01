@@ -78,6 +78,7 @@ class Chain:
             "Are Harmful Ingredients present?"
             "Nutritional Information: {nutritional_info}\n"
             "Health Record: {health_record}\n"
+            "Provide the sources as well for the recommendations"
             "Provide the output as a string."
         )
         chain = prompt | self.llm 
