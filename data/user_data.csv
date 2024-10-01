@@ -1,0 +1,165 @@
+user_id,name,phone,email,health_record,health_summary
+550e8400-e29b-41d4-a716-446655440000,John Doe,1234567890,john.doe@example.com,"Age: 35, Weight: 70kg, Height: 175cm, Allergies: None","Generally healthy, regular exercise, no major health concerns"
+f47ac10b-58cc-4372-a567-0e02b2c3d479,Jane Smith,1987654321,jane.smith@example.com,"Age: 28, Weight: 62kg, Height: 165cm, Allergies: Peanuts","Peanut allergy, lactose intolerant, otherwise healthy"
+7b6dd6aa-0c9a-4657-95b8-1c6a3c0fb10d,Bob Johnson,1122334455,bob.johnson@example.com,"Age: 45, Weight: 85kg, Height: 180cm, Allergies: Shellfish","High blood pressure, needs to reduce sodium intake"
+9f0d5c3e-8f2a-4b5d-a7c1-b2e3d4f5g6h7,Alice Brown,1555666777,alice.brown@example.com,"Age: 52, Weight: 68kg, Height: 160cm, Allergies: None","Type 2 diabetes, following a low-carb diet"
+1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p,Charlie Wilson,1999888777,charlie.wilson@example.com,"Age: 30, Weight: 75kg, Height: 178cm, Allergies: Gluten","Celiac disease, follows a strict gluten-free diet"
+a4d2faba-c64f-46c2-b496-83ef8d8ac752,John Doe,1234567890,johndoe@example.com,"Patient ID: JD72102454
+Name: John Doe
+DOB: 05/15/1952
+Age: 72
+Sex: Male
+Date of Examination: 10/01/2024
+
+## Chief Complaints:
+- Fatigue
+- Shortness of breath
+- Swelling in legs
+
+## Diagnoses:
+1. Chronic Liver Disease (K76.9)
+2. Hypercholesterolemia (E78.0)
+3. Coronary Artery Disease (I25.10)
+4. Chronic Kidney Disease, Stage 3 (N18.3)
+
+## Vital Signs:
+- Blood Pressure: 142/88 mmHg
+- Heart Rate: 78 bpm
+- Respiratory Rate: 18 breaths/min
+- Temperature: 37.0°C (98.6°F)
+- Weight: 82 kg (181 lbs)
+- Height: 175 cm (5'9"")
+- BMI: 26.8 kg/m²
+- Oxygen Saturation: 96% on room air
+
+## Laboratory Results:
+
+### Hematology:
+- Complete Blood Count (CBC):
+  * WBC: 7.2 x 10^9/L (Reference: 4.5-11.0)
+  * RBC: 4.1 x 10^12/L (Reference: 4.5-5.9)
+  * Hemoglobin: 12.8 g/dL (Reference: 13.5-17.5)
+  * Hematocrit: 38% (Reference: 41-53)
+  * MCV: 92 fL (Reference: 80-100)
+  * MCH: 31 pg (Reference: 27-33)
+  * MCHC: 34 g/dL (Reference: 32-36)
+  * RDW: 14% (Reference: 11.5-14.5)
+  * Platelets: 190 x 10^9/L (Reference: 150-450)
+
+### Lipid Panel:
+- Total Cholesterol: 240 mg/dL (Reference: <200)
+- LDL Cholesterol: 160 mg/dL (Reference: <100)
+- HDL Cholesterol: 35 mg/dL (Reference: >40)
+- Triglycerides: 200 mg/dL (Reference: <150)
+- Non-HDL Cholesterol: 205 mg/dL (Reference: <130)
+
+### Liver Function Tests:
+- ALT: 65 U/L (Reference: 7-56)
+- AST: 72 U/L (Reference: 10-40)
+- Alkaline Phosphatase: 110 U/L (Reference: 44-147)
+- Gamma GT: 75 U/L (Reference: 0-51)
+- Total Protein: 6.8 g/dL (Reference: 6.0-8.3)
+- Albumin: 3.4 g/dL (Reference: 3.5-5.0)
+- Globulin: 3.4 g/dL (Reference: 2.3-3.5)
+- A/G Ratio: 1.0 (Reference: 1.2-2.2)
+- Total Bilirubin: 1.8 mg/dL (Reference: 0.1-1.2)
+- Direct Bilirubin: 0.4 mg/dL (Reference: 0.0-0.3)
+
+### Kidney Function Tests:
+- BUN: 28 mg/dL (Reference: 7-20)
+- Creatinine: 1.8 mg/dL (Reference: 0.7-1.3)
+- eGFR: 45 mL/min/1.73m^2 (Reference: >60)
+- Uric Acid: 7.2 mg/dL (Reference: 3.4-7.0)
+
+### Electrolytes:
+- Sodium: 138 mEq/L (Reference: 136-145)
+- Potassium: 4.5 mEq/L (Reference: 3.5-5.1)
+- Chloride: 102 mEq/L (Reference: 98-107)
+- Bicarbonate: 24 mEq/L (Reference: 22-29)
+- Calcium: 9.2 mg/dL (Reference: 8.6-10.2)
+- Phosphorus: 3.5 mg/dL (Reference: 2.7-4.5)
+- Magnesium: 2.0 mg/dL (Reference: 1.6-2.6)
+
+### Glucose Metabolism:
+- Fasting Blood Glucose: 110 mg/dL (Reference: 70-99)
+- HbA1c: 6.1% (Reference: <5.7)
+
+### Thyroid Function:
+- TSH: 2.8 mIU/L (Reference: 0.4-4.0)
+- Free T4: 1.2 ng/dL (Reference: 0.8-1.8)
+
+### Prostate Specific Antigen:
+- PSA: 3.8 ng/mL (Reference: 0-4.0)
+
+### Vitamins and Minerals:
+- Vitamin D, 25-Hydroxy: 28 ng/mL (Reference: 30-100)
+- Vitamin B12: 380 pg/mL (Reference: 200-900)
+- Folate: 9 ng/mL (Reference: >5.9)
+- Iron: 85 μg/dL (Reference: 65-175)
+- Ferritin: 150 ng/mL (Reference: 22-322)
+
+### Inflammatory Markers:
+- C-Reactive Protein (CRP): 3.2 mg/L (Reference: <3.0)
+- Erythrocyte Sedimentation Rate (ESR): 22 mm/hr (Reference: 0-20)
+
+### Urinalysis:
+- Color: Yellow
+- Clarity: Clear
+- pH: 6.0
+- Specific Gravity: 1.020
+- Protein: Trace
+- Glucose: Negative
+- Ketones: Negative
+- Blood: Negative
+- Leukocyte Esterase: Negative
+- Nitrite: Negative
+
+## Imaging Studies:
+- Chest X-ray: Mild cardiomegaly noted. No acute pulmonary findings.
+- Abdominal Ultrasound: Liver shows increased echogenicity consistent with fatty infiltration. No focal lesions. Kidneys show decreased cortical thickness bilaterally.
+
+## Current Medications:
+1. Atorvastatin 40mg daily
+2. Metoprolol 25mg twice daily
+3. Furosemide 20mg daily
+4. Lisinopril 10mg daily
+
+## Allergies:
+- Penicillin (rash)
+","## Patient Nutritional Summary: John Doe (JD72102454)
+
+**Key Health Concerns (relevant to nutrition):**
+
+* **Chronic Liver Disease:** Requires attention to protein intake, sodium restriction, and avoidance of alcohol.  Liver function tests indicate some impairment.
+* **Hypercholesterolemia:** Requires a low-cholesterol, low-saturated fat diet. Lipid panel shows elevated total cholesterol, LDL, triglycerides, and non-HDL cholesterol.
+* **Coronary Artery Disease:** Requires a heart-healthy diet focusing on fruits, vegetables, whole grains, and lean protein sources.  Limit saturated and trans fats, sodium, and added sugars.
+* **Chronic Kidney Disease, Stage 3:** Requires monitoring of protein, phosphorus, potassium, and sodium intake. Kidney function tests show reduced eGFR and elevated BUN and creatinine.  
+* **Overweight/Obesity (BMI 26.8):**  Weight management through calorie control and healthy dietary choices is necessary.
+* **Prediabetes/Insulin Resistance (HbA1c 6.1, Fasting Glucose 110 mg/dL):**  Requires a focus on carbohydrate control and blood sugar management.  
+
+**Dietary Restrictions:**
+
+* **Low Cholesterol:** Due to hypercholesterolemia.
+* **Low Saturated Fat:** Due to hypercholesterolemia and coronary artery disease.
+* **Controlled Sodium:** Due to chronic kidney disease.  Swelling in legs may also indicate fluid retention, further supporting sodium restriction.
+* **Controlled Protein:** Due to chronic kidney disease.  However, sufficient protein is also important due to chronic liver disease. Careful balance and monitoring are crucial.
+* **Controlled Potassium:** Due to chronic kidney disease.
+* **Controlled Phosphorus:** Due to chronic kidney disease.
+* **Controlled Fluid Intake:**  Potential restriction based on leg swelling (edema) and furosemide prescription, suggesting fluid retention. Requires careful assessment.
+* **Avoid Alcohol:** Due to chronic liver disease.
+
+
+**Allergies:**
+
+* **Penicillin (rash):** While not directly related to nutrition, this allergy is crucial for overall patient care.  
+
+
+**Other Considerations:**
+
+* Vitamin D insufficiency (28 ng/mL) should be addressed through supplementation or dietary adjustments.
+* Patient reports fatigue, which could be related to various factors including nutritional deficiencies or the underlying health conditions. Further assessment is warranted.
+* Current medications (Atorvastatin, Metoprolol, Furosemide, Lisinopril) should be considered when making dietary recommendations as they may interact with certain foods or nutrients.
+
+
+This summary provides a starting point for nutritional assessment and requires further personalized evaluation by a registered dietitian or qualified healthcare professional.  Individualized meal planning and dietary counseling are essential for optimizing patient outcomes.
+"
