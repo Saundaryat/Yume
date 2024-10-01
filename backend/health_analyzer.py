@@ -47,14 +47,30 @@ class HealthAnalyzer:
             health_summary = self.chain.get_health_summary(data)
             print("health summary: ", health_summary.content)
             self.user_data.loc[self.user_data['user_id'] == user_id, 'health_summary'] = health_summary.content
+            daily_intake = self.chain.get_daily_intake(data)
+            print("daily intake: ", daily_intake.content)
+            self.user_data.loc[self.user_data['user_id'] == user_id, 'target_nutrients'] = daily_intake.content 
             self.user_data.to_csv('data/user_data.csv', index=False)
             return {
                 "message": f"Health record for user {user_id} uploaded successfully",
-                "health_summary": health_summary.content
+                "health_summary": health_summary.content,
+                "target_nutrients": daily_intake.content
             }
         except Exception as e:
             error_message = f"An error occurred while uploading health record: {str(e)}"
             print(error_message) 
+            return {"error": error_message}
+        
+    def add_user_preferences(self, user_id, preferences):
+        print("user_id: ", user_id)
+        print("preferences: ", preferences)
+        try:
+            self.user_data.loc[self.user_data['user_id'] == user_id, 'preferences'] = preferences
+            self.user_data.to_csv('data/user_data.csv', index=False)
+            return {"message": f"Preferences for user {user_id} added successfully"}
+        except Exception as e:
+            error_message = f"An error occurred while adding user preferences: {str(e)}"
+            print(error_message)
             return {"error": error_message}
 
     def create_user(self, name, phone, email):
@@ -67,7 +83,8 @@ class HealthAnalyzer:
                 'email': email, 
                 'health_record': '', 
                 'health_summary': '',
-                'preferences': ''
+                'preferences': '',
+                'target_nutrients': ''
             }
             self.user_data.to_csv('data/user_data.csv', index=False)
             return {"user_id": user_id, "message": "User created successfully"}
@@ -115,32 +132,24 @@ class HealthAnalyzer:
     def get_meals_summary_by_user(self, user_id):
         try:
             # Filter the meals_data by the provided user_id
-            user_meals = self.meals_data[self.meals_data['user_id'] == user_id]
+            user_meals = self.meals_data[self.meals_data['user_id'] == user_id].copy()
             
             if user_meals.empty:
                 return {"message": "No meals found for this user"}
 
-            # Convert columns to numeric to ensure proper summing
-            user_meals['protein'] = pd.to_numeric(user_meals['protein'])
-            user_meals['fats'] = pd.to_numeric(user_meals['fats'])
-            user_meals['carbohydrates'] = pd.to_numeric(user_meals['carbohydrates'])
-            user_meals['calorieConsumed'] = pd.to_numeric(user_meals['calorieConsumed'])
+            # Convert columns to numeric
+            numeric_columns = ['protein', 'fats', 'carbohydrates', 'calorieConsumed']
+            user_meals[numeric_columns] = user_meals[numeric_columns].apply(pd.to_numeric, errors='coerce')
+            totals = user_meals[numeric_columns].sum()
 
-            # Sum up the values for each nutrient
-            total_protein = user_meals['protein'].sum()
-            total_fats = user_meals['fats'].sum()
-            total_carbohydrates = user_meals['carbohydrates'].sum()
-            total_calories = user_meals['calorieConsumed'].sum()
+            print("total_calories", totals['calorieConsumed'])
 
-            print("total_calories", total_calories)
-
-            # Return the totals
             return {
-                "total_protein": total_protein,
-                "total_fats": total_fats,
-                "total_carbohydrates": total_carbohydrates,
-                "total_calories": total_calories
-            }
+                "total_protein": totals['protein'],
+                "total_fats": totals['fats'],
+                "total_carbohydrates": totals['carbohydrates'],
+                "total_calories": totals['calorieConsumed']
+                }
         except Exception as e:
             error_message = f"An error occurred while retrieving meal summary: {str(e)}"
             print(error_message)

@@ -116,6 +116,19 @@ class APP:
             columns = request.args.get('columns', ['Food'])
             result = self.search.search(keyword, columns)
             return result
+        
+        ### Add User Preferences: vegan, keto, etc.
+        @self.app.route('/preferences/', methods=['POST'])
+        def add_user_preferences():
+            data = request.json
+            if not data or 'user_id' not in data or 'preferences' not in data:
+                return jsonify({"error": "User ID and preferences are required to add user preferences"}), 400
+            
+            user_id = data['user_id']
+            preferences = data['preferences']   
+            result = self.health_analyzer.add_user_preferences(user_id, preferences)
+            return jsonify(result)
+            
 
     def run(self):
         self.app.run(port=self.port)
