@@ -3,7 +3,7 @@ from flask import jsonify
 
 class KeywordSearch:
     def __init__(self):
-        self.df = pd.read_csv("data/common_food.csv")
+        self.df = pd.read_csv("data/dataset/common_food.csv")
 
     def search(self, keyword, columns=['Food']):
         """

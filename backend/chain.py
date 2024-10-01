@@ -75,22 +75,31 @@ class Chain:
         img.save(buffer, format="PNG")
         image = Image.from_bytes(buffer.getvalue())
         prompt_calories_count = """
-           Please estimate the total calories in this image, assuming the food shown is a single serving for one person. 
-           Provide a rough estimate of the calorie count, and break it down into approximate amounts of protein, carbohydrates, 
-           and fats. Keep the estimates general, focusing on typical nutritional values for the types of 
-           food visible in the image, without the need for precise measurements always give the preference to the lower side of the estimate.
-           Give the output in the following format in the form of a JSON object:
-           {
-               "calories": "{calories}",
-               "protein": "{protein}",
-               "carbohydrates": "{carbohydrates}",
-               "fats": "{fats}"
-           }
-           """
+            Please estimate the total calories in this image, assuming the food shown is a single serving for one person. 
+            Provide a rough estimate of the calorie count, and break it down into approximate amounts of protein, carbohydrates, 
+            and fats. Keep the estimates general, focusing on typical nutritional values for the types of 
+            food visible in the image, without the need for precise measurements always give the preference to the lower side of the estimate.
+            Provide your response as a valid JSON object with the following structure:
+            {
+                "calories": "{calories}",
+                "protein": "{protein}",
+                "carbohydrates": "{carbohydrates}",
+                "fats": "{fats}"
+            }
+            Ensure all values are integers without units. For example:
+            {
+                "calories": "300",
+                "protein": "15",
+                "carbohydrates": "30",
+                "fats": "10"
+            }
+            Important: Your response must be a valid JSON object and nothing else. Do not include any explanations or additional text outside the JSON structure.
+            """
 
         response = self.model.generate_content([prompt_calories_count, image])
         return response.text
 
+    #### TODO: update prompt for meal summary, make it more instructive
     def assess_health_compatibility(self, health_record, nutritional_info, meals_summary):
         prompt = ChatPromptTemplate.from_template(
             "Given the following health record and nutritional information, "
@@ -99,7 +108,7 @@ class Chain:
             "Is it high in fats, sugar, sodium, calories?"
             "Are Harmful Ingredients present?"
             "How many calories are consumed in the meals and how does it compare to the nutrients already consumed in meals?"
-            "Depending upon total calories already consumed in meal summary include that as well in your answer"
+            "Depending upon total calories already consumed in meal summary today include that as well in your answer"
             "Nutritional Information: {nutritional_info}\n"
             "Health Record: {health_record}\n"
             "Meals Summary: {meals_summary}\n"
