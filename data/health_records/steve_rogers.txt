@@ -1,0 +1,109 @@
+Patient ID: SR07041918
+Name: Steve Rogers (Captain America)
+DOB: 07/04/1918 (Chronological age: 106, Biological age: ~35)
+Sex: Male
+Date of Examination: 10/01/2024
+
+## Chief Complaints:
+- None reported. Routine Avengers physical examination.
+
+## Medical History:
+- Received super-soldier serum in 1943
+- Frozen in ice for ~70 years (1945-2011)
+- Multiple combat-related injuries with rapid healing
+
+## Vital Signs:
+- Blood Pressure: 110/60 mmHg
+- Heart Rate: 40 bpm
+- Respiratory Rate: 10 breaths/min
+- Temperature: 36.9°C (98.4°F)
+- Weight: 108 kg (240 lbs)
+- Height: 188 cm (6'2")
+- BMI: 30.5 kg/m² (Note: BMI not applicable due to enhanced muscle mass)
+- Oxygen Saturation: 100% on room air
+
+## Laboratory Results:
+
+### Hematology:
+- Complete Blood Count (CBC):
+  * WBC: 12.0 x 10^9/L (Reference: 4.5-11.0) [Elevated due to enhanced immune system]
+  * RBC: 7.2 x 10^12/L (Reference: 4.5-5.9) [Elevated due to enhanced oxygen-carrying capacity]
+  * Hemoglobin: 22.0 g/dL (Reference: 13.5-17.5) [Elevated]
+  * Hematocrit: 55% (Reference: 41-53) [Elevated]
+  * MCV: 90 fL (Reference: 80-100)
+  * MCH: 30 pg (Reference: 27-33)
+  * MCHC: 34 g/dL (Reference: 32-36)
+  * RDW: 12% (Reference: 11.5-14.5)
+  * Platelets: 400 x 10^9/L (Reference: 150-450) [High normal, enhanced clotting ability]
+
+### Lipid Panel:
+- Total Cholesterol: 120 mg/dL (Reference: <200)
+- LDL Cholesterol: 60 mg/dL (Reference: <100)
+- HDL Cholesterol: 80 mg/dL (Reference: >40) [Significantly elevated]
+- Triglycerides: 50 mg/dL (Reference: <150)
+
+### Liver Function Tests:
+- ALT: 25 U/L (Reference: 7-56)
+- AST: 28 U/L (Reference: 10-40)
+- Alkaline Phosphatase: 70 U/L (Reference: 44-147)
+- Total Protein: 8.0 g/dL (Reference: 6.0-8.3) [High normal]
+- Albumin: 5.0 g/dL (Reference: 3.5-5.0) [Upper limit]
+
+### Kidney Function Tests:
+- BUN: 15 mg/dL (Reference: 7-20)
+- Creatinine: 1.2 mg/dL (Reference: 0.7-1.3) [High normal due to increased muscle mass]
+- eGFR: >120 mL/min/1.73m^2 (Reference: >60) [Significantly elevated]
+
+### Electrolytes:
+- Sodium: 140 mEq/L (Reference: 136-145)
+- Potassium: 4.5 mEq/L (Reference: 3.5-5.1)
+- Chloride: 102 mEq/L (Reference: 98-107)
+- Bicarbonate: 26 mEq/L (Reference: 22-29)
+- Calcium: 10.0 mg/dL (Reference: 8.6-10.2) [High normal]
+
+### Glucose Metabolism:
+- Fasting Blood Glucose: 80 mg/dL (Reference: 70-99)
+- HbA1c: 4.8% (Reference: <5.7) [Optimal]
+
+### Hormones:
+- Testosterone: 1200 ng/dL (Reference: 264-916) [Significantly elevated]
+- Cortisol: 12 μg/dL (Reference: 6-23) [Optimal stress response]
+
+### Vitamins and Minerals:
+- Vitamin D, 25-Hydroxy: 70 ng/mL (Reference: 30-100)
+- Vitamin B12: 1000 pg/mL (Reference: 200-900) [Elevated]
+- Iron: 150 μg/dL (Reference: 65-175) [High normal]
+
+### Inflammatory Markers:
+- C-Reactive Protein (CRP): 0.2 mg/L (Reference: <3.0) [Minimal inflammation]
+- Erythrocyte Sedimentation Rate (ESR): 1 mm/hr (Reference: 0-20) [Minimal inflammation]
+
+## Imaging Studies:
+- Chest X-ray: Enhanced bone density. Lung capacity appears 50% greater than average.
+- MRI Brain: Increased neural connectivity and enhanced brain volume.
+- DEXA Scan: Bone density 3x normal levels. Muscle mass 2x normal levels.
+
+## Physical Fitness Test Results:
+- 2-mile run time: 3:30 minutes [Far exceeds normal human capability]
+- Push-ups: 1,000 in 2 minutes [Far exceeds normal human capability]
+- Pull-ups: 100 consecutive [Far exceeds normal human capability]
+- Bench Press: 1,200 lbs (544 kg) [Far exceeds normal human capability]
+
+## Psychological Evaluation:
+- Exceptional leadership qualities
+- High moral character and sense of duty
+- Remarkable resilience to trauma and stress
+- Rapid adaptation to modern era despite time displacement
+
+## Current Medications:
+- None
+
+## Allergies:
+- None known
+
+## Additional Notes:
+- Superhuman strength, speed, agility, and durability
+- Exceptionally rapid healing and cellular regeneration
+- Immunity to most known diseases and toxins
+- Delayed aging process
+- Enhanced mental processing and memory retention

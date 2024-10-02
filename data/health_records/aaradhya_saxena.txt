@@ -1,0 +1,108 @@
+# Comprehensive Medical Report - Based on Actual Test Results
+
+Patient ID: 042312050017
+Name: Mr. Aaradhya Saxena
+DOB: 27/11/1997 (Age: 26 years)
+Sex: Male
+Date of Examination: 05/Dec/2023
+
+## Chief Complaints:
+- None reported. Routine medical examination.
+
+## Medical History:
+- Not provided in the test results
+
+## Vital Signs:
+- Blood Pressure: 75/110
+- Heart Rate: 52
+- Respiratory Rate: 14 breaths/min
+- Temperature: 98.6 F
+- Weight: 62 kg
+- Height: 170 cm
+- BMI: 21.4
+
+## Laboratory Results:
+
+### Hematology:
+- Complete Blood Count (CBC):
+  * WBC: 6900 /cu.mm (Reference: 4000-10000)
+  * RBC: 5.46 million/cumm (Reference: 4.5-5.5)
+  * Hemoglobin: 15.8 g/dL (Reference: 13.0-17.0)
+  * Hematocrit (PCV): 47.7 % (Reference: 40-50)
+  * MCV: 87.4 fl (Reference: 83-101)
+  * MCH: 29.0 pg (Reference: 27-32)
+  * MCHC: 33.2 g/dl (Reference: 31.5-34.5)
+  * RDW (CV): 12.4 % (Reference: 11.60 - 14.0)
+  * Platelets: 1.99 Lac/cu.mm (Reference: 1.5-4.1)
+
+- Differential Leukocyte Count:
+  * Neutrophils: 64 % (Reference: 40 - 80)
+  * Lymphocytes: 30 % (Reference: 20 - 40%)
+  * Eosinophils: 02 % (Reference: 1 - 6)
+  * Monocytes: 04 % (Reference: 2 - 10)
+  * Basophils: 00 % (Reference: <1 - 2)
+  * Immature Cells: 00 %
+
+- Erythrocyte Sedimentation Rate (ESR): 02 mm/hr (Reference: 0-10)
+
+### Biochemistry:
+- Fasting Plasma Glucose: 87.6 mg/dl (Reference: 74-100)
+- Creatinine: 0.90 mg/dL (Reference: 0.72-1.18)
+
+### Lipid Profile:
+- Total Cholesterol: 159.8 mg/dl (Reference: <200 Desirable)
+- Triglycerides: 103.2 mg/dl (Reference: <150 Normal)
+- HDL Cholesterol: 43.2 mg/dl (Reference: <40 Low, >60 High)
+- LDL Cholesterol: 106.6 mg/dl (Reference: <100 Optimal)
+- VLDL Cholesterol: 10.0 mg/dl (Reference: 25-40)
+- Cholesterol : HDL Cholesterol Ratio: 3.7 (Reference: Low risk 3.3-4.4)
+- HDL-C : LDL-C Ratio: 0.41 (Reference: 0.30 - 0.40)
+
+### Liver Function Tests:
+- Bilirubin Total: 1.1 mg/dl (Reference: 0.2-1.2)
+- Bilirubin Direct: 0.5 mg/dl (Reference: 0.1 - 0.4)
+- Bilirubin Indirect: 0.6 mg/dl (Reference: 0.1-0.7)
+- Alkaline Phosphatase: 87.3 U/L (Reference: 40-129)
+- ALT/SGPT: 20.7 U/L (Reference: 0 - 34)
+- AST/SGOT: 22.9 U/L (Reference: 0-31)
+- SGOT/SGPT Ratio: 1.11
+- Total Protein: 7.2 g/dL (Reference: 6.4-8.3)
+- Albumin: 5.1 gm/dl
+- Globulin: 2.1 gm/dl (Reference: 2.0 - 3.5)
+- A/G Ratio: 2.4 (Reference: 0.8 - 1.2)
+
+### Other Tests:
+- Uric Acid: 5.0 mg/dl (Reference: 3.5 - 7.2)
+
+### Hormones:
+- T3, Total: 1.57 ng/ml (Reference: 0.8-2.0)
+- T4 Total: 12.6 μg/dl (Reference: 4.82-15.65)
+- TSH: 2.60 μIU/mL (Reference: 0.4 - 4.5)
+
+### Urinalysis:
+- Color: Pale Yellow
+- Appearance: Clear
+- Specific Gravity: 1.005 (Reference: 1.002 - 1.030)
+- pH: Acidic (6.0)
+- Protein: Nil
+- Sugar: Nil
+- Pus Cells: Occasional /H.P.F
+- RBC: Nil /H.P.F
+- Epithelial Cells: Occasional /H.P.F
+- Casts: Nil
+- Crystals: Nil
+
+## Imaging Studies:
+- Not provided in the test results
+
+## Additional Notes:
+- Overall, the test results are within normal ranges with a few minor exceptions.
+- Direct Bilirubin is slightly elevated.
+- A/G Ratio is higher than the reference range.
+- HDL Cholesterol is borderline low.
+
+## Current Medications:
+- Not provided in the test results
+
+## Allergies:
+- Not provided in the test results
