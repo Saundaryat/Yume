@@ -203,6 +203,7 @@ SQLAlchemy==2.0.32
 stack-data==0.6.3
 starlette==0.38.2
 streamlit==1.37.1
+streamlit-lottie==0.0.5
 sympy==1.13.2
 tenacity==8.5.0
 terminado==0.18.1
