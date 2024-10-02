@@ -3,7 +3,78 @@ import requests
 from streamlit_lottie import st_lottie
 import json
 
+# Define custom styles for aesthetics
+st.markdown(
+    """
+    <style>
+    body {
+        background-color: #f7f9fc;
+        font-family: 'Poppins', sans-serif;
+    }
+    .stButton button {
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 12px;
+        border: none;
+        padding: 8px 16px;
+        font-size: 16px;
+    }
+    .stButton button:hover {
+        background-color: #45a049;
+    }
+    .stTextInput input {
+        border: 1px solid #ccc;
+        border-radius: 12px;
+        padding: 10px;
+        width: 100%;
+    }
+    .sidebar .sidebar-content {
+        background-color: #F0F4F8;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
+# Load Lottie animation
+def load_lottie_file(filepath: str):
+    try:
+        with open(filepath, "r") as f:
+            return json.load(f)
+    except Exception as e:
+        st.error(f"An error occurred while loading the Lottie animation: {e}")
+        return None
+
+# Add sidebar navigation
+def main():
+    st.sidebar.title("YuMe")
+    
+    st.sidebar.write("Welcome to the User Dashboard")
+    user_id = st.sidebar.text_input("Enter your User ID")
+    
+    menu = ["Analyze Product", "User Profile", "Calorie Intake"]
+    choice = st.sidebar.selectbox("Navigation", menu)
+
+    # Move Lottie animation to the top of the main page instead of the sidebar
+    col1, col2 = st.columns([1, 3])
+    with col1:
+        lottie_animation = load_lottie_file("frontend/animation/yumegrad.json")
+        if lottie_animation:
+            st_lottie(lottie_animation, height=150, width=200)
+    with col2:
+        st.title("YuMe Dashboard")
+        st.subheader("Guided by nutrition driven by you")
+
+    # Navigate between tabs
+    if choice == "Analyze Product":
+        scan_tab(user_id)
+    elif choice == "User Profile":
+        dashboard_tab(user_id)
+    elif choice == "Calorie Intake":
+        calorie_intake_tab(user_id)
+
 def scan_tab(user_id):
+    st.header("Analyze Product & Burn Calories")
+    
     uploaded_file = st.file_uploader("Upload an image for product analysis", type=["jpg", "png", "jpeg"])
 
     if st.button("Analyze Product"):
@@ -25,18 +96,15 @@ def scan_tab(user_id):
                 if response.status_code == 200:
                     result = response.json()
 
-                    col1, col2 = st.columns([5, 3])  
+                    col1, col2 = st.columns([5, 3])
 
-                    # Display analysis result on the left column
                     with col1:
-                        st.write("### Analysis Result")
+                        st.subheader("Analysis Result")
                         st.markdown(result['result']['health_recommendation'])
-                        st.image(uploaded_file, use_column_width='auto')  # Reduce image size
+                        st.image(uploaded_file, use_column_width='auto')
 
-                    # Display exercises and calorie burn on the right column
                     with col2:
                         burn_calories_from_excercises(result['result']['excercises_result'])
-
 
                 else:
                     st.error(f"Error {response.status_code}: {response.text}")
@@ -44,30 +112,24 @@ def scan_tab(user_id):
                 st.error(f"An error occurred: {e}")
 
 def burn_calories_from_excercises(excercises_result):
-    st.write("### Burn Calories with Exercise")
+    st.subheader("Burn Calories with Exercise")
     
     try:
-        # Parse the excercises_result JSON string into a Python dictionary
         excercises_data = json.loads(excercises_result)
-
-        # Load Lottie animations for each exercise
         cycling_lottie = load_lottie_file("frontend/animation/cycling.json")
         swimming_lottie = load_lottie_file("frontend/animation/swimming.json")
         running_lottie = load_lottie_file("frontend/animation/running.json")
 
-        # Display Cycling data with Lottie animation
         if 'cycling' in excercises_data:
             st.markdown(f"**Cycling**: {excercises_data['cycling']}")
             if cycling_lottie:
                 st_lottie(cycling_lottie, height=150, width=150)
 
-        # Display Swimming data with Lottie animation
         if 'swimming' in excercises_data:
             st.markdown(f"**Swimming**: {excercises_data['swimming']}")
             if swimming_lottie:
                 st_lottie(swimming_lottie, height=150, width=150)
 
-        # Display Running data with Lottie animation
         if 'running' in excercises_data:
             st.markdown(f"**Running**: {excercises_data['running']}")
             if running_lottie:
@@ -76,23 +138,13 @@ def burn_calories_from_excercises(excercises_result):
     except json.JSONDecodeError as e:
         st.error(f"Failed to parse exercises data: {e}")
 
-def load_lottie_file(filepath: str):
-    """Load Lottie animation from a local file."""
-    try:
-        with open(filepath, "r") as f:
-            return json.load(f)
-    except Exception as e:
-        st.error(f"An error occurred while loading the Lottie animation from {filepath}: {e}")
-        return None
-
 def dashboard_tab(user_id):
-    st.write("Welcome to the User Dashboard")
+    st.header("User Profile")
     
-    ### Upload Health Record
     uploaded_doc = st.file_uploader("Upload the health record document", type=["txt"])
     if st.button("Upload Health Record"):
         if uploaded_doc is None:
-            st.error("Please upload the doc.")
+            st.error("Please upload the document.")
         elif not user_id:
             st.error("Please enter your User ID.")
         else:
@@ -108,17 +160,14 @@ def dashboard_tab(user_id):
 
                 if response.status_code == 200:
                     st.success(f"Document '{uploaded_doc.name}' uploaded successfully!")
-                    st.text("Uploaded file content:")
                     st.markdown(uploaded_doc.getvalue().decode('utf-8'))
                 else:
                     st.error(f"Error {response.status_code}: {response.text}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
-    ### Add User Preferences    
-    user_preferences = st.text_input("Enter Your Preferences: vegan? keto? looking to lose weight? etc.\n\n"
-                                     "Also what is your activity level? sedentary, active, very active?")
-    if st.button("Add Your Preferences"):
+    user_preferences = st.text_input("Enter Your Preferences (e.g., vegan, keto, etc.)")
+    if st.button("Add Preferences"):
         if user_preferences is None:
             st.error("Please enter your preferences.")
         elif not user_id:
@@ -140,13 +189,33 @@ def dashboard_tab(user_id):
             except Exception as e:
                 st.error(f"An error occurred: {e}")
 
+    user_preferences = st.text_input("Add Links to Trusted Sources")
+    if st.button("Add Sources"):
+        if user_preferences is None:
+            st.error("Please enter your Links.")
+        elif not user_id:
+            st.error("Please enter your User ID.")
+        else:
+            try:
+                data = {
+                    'user_id': user_id,
+                    'preferences': user_preferences
+                }
+                headers = {'Content-Type': 'application/json'}
+                api_url = "http://localhost:5001/preferences/"
+                response = requests.post(api_url, json=data, headers=headers)
+
+                if response.status_code == 200:
+                    st.success(f"Preferences '{user_preferences}' added successfully!")
+                else:
+                    st.error(f"Error {response.status_code}: {response.text}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
+
 def calorie_intake_tab(user_id):
-    st.write("Calorie Intake Calculator")
+    st.header("Calorie Intake Calculator")
     
-    # Image uploader for meal data
     uploaded_file = st.file_uploader("Upload an image of your meal", type=["jpg", "png", "jpeg"])
-    
-    # Input for meal type
     meal_type = st.selectbox("Select Meal Type", ["Breakfast", "Lunch", "Dinner", "Snacks"])
     
     if st.button("Add Meal"):
@@ -163,46 +232,18 @@ def calorie_intake_tab(user_id):
                     'user_id': user_id,
                     'meal_type': meal_type
                 }
-                
-                # API URL for calorie calculation (update with actual API endpoint)
                 api_url = "http://localhost:5001/calculate_calories"
                 response = requests.post(api_url, files=files, data=data)
                 
                 if response.status_code == 200:
                     result = response.json()
-                    st.write("### Calorie Calculation Result")
+                    st.subheader("Calorie Calculation Result")
                     st.markdown(result['result']['health_recommendation'])
                     st.image(uploaded_file)
                 else:
                     st.error(f"Error {response.status_code}: {response.text}")
             except Exception as e:
                 st.error(f"An error occurred: {e}")
-
-def main():
-    col1, col2 = st.columns([1, 5])  # Adjust the width ratios as necessary
-
-    with col1:
-        st.title("YuMe")
-
-    with col2:
-        lottie_animation = load_lottie_file("frontend/animation/yumegrad.json")
-        if lottie_animation:
-            st_lottie(lottie_animation, height=100, width=100)
-        else:
-            st.error("Failed to load animation.")
-
-    user_id = st.text_input("Enter your User ID")
-
-    tab1, tab2, tab3 = st.tabs(["Analyze Product & Burn Calories", "User Profile", "Calorie Intake"])
-    
-    with tab1:
-        scan_tab(user_id)
-
-    with tab2:
-        dashboard_tab(user_id)
-
-    with tab3:
-        calorie_intake_tab(user_id)
 
 if __name__ == "__main__":
     main()
