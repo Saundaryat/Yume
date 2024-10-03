@@ -3,6 +3,11 @@ import requests
 from streamlit_lottie import st_lottie
 import json
 
+with open('config/config.json', 'r') as config_file:
+    config = json.load(config_file)
+
+BASE_URL = config['BASE_URL']
+
 # Define custom styles for aesthetics
 st.markdown(
     """
@@ -46,6 +51,8 @@ def load_lottie_file(filepath: str):
 
 # Add sidebar navigation
 def main():
+    global BASE_URL
+
     st.sidebar.title("YuMe")
     
     st.sidebar.write("Welcome to the User Dashboard")
@@ -90,7 +97,7 @@ def scan_tab(user_id):
                 data = {
                     'user_id': user_id
                 }
-                api_url = "http://localhost:5001/analyze_product"
+                api_url = BASE_URL + "/analyze_product"
                 response = requests.post(api_url, files=files, data=data)
 
                 if response.status_code == 200:
@@ -155,7 +162,7 @@ def dashboard_tab(user_id):
                 data = {
                     'user_id': user_id
                 }
-                api_url = "http://localhost:5001/health_record/"
+                api_url = BASE_URL + "/health_record/"
                 response = requests.post(api_url, files=files, data=data)
 
                 if response.status_code == 200:
@@ -179,7 +186,7 @@ def dashboard_tab(user_id):
                     'preferences': user_preferences
                 }
                 headers = {'Content-Type': 'application/json'}
-                api_url = "http://localhost:5001/preferences/"
+                api_url = BASE_URL + "/preferences/"
                 response = requests.post(api_url, json=data, headers=headers)
 
                 if response.status_code == 200:
@@ -202,7 +209,7 @@ def dashboard_tab(user_id):
                     'preferences': user_preferences
                 }
                 headers = {'Content-Type': 'application/json'}
-                api_url = "http://localhost:5001/preferences/"
+                api_url = BASE_URL +"/preferences/"
                 response = requests.post(api_url, json=data, headers=headers)
 
                 if response.status_code == 200:
@@ -232,7 +239,7 @@ def calorie_intake_tab(user_id):
                     'user_id': user_id,
                     'meal_type': meal_type
                 }
-                api_url = "http://localhost:5001/calculate_calories"
+                api_url = BASE_URL + "/calculate_calories"
                 response = requests.post(api_url, files=files, data=data)
                 
                 if response.status_code == 200:
