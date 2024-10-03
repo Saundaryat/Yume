@@ -68,7 +68,7 @@ def main():
         if lottie_animation:
             st_lottie(lottie_animation, height=150, width=200)
     with col2:
-        st.title("YuMe Dashboard")
+        st.title("YuMe")
         st.subheader("Guided by nutrition driven by you")
 
     # Navigate between tabs
