@@ -191,17 +191,23 @@ class Chain:
         user_records = self.df.loc[self.df['user_id'] == user_id, 'health_record']
         if user_records.empty:
             print(f"Warning: No health record found for user_id: {user_id}")
-        health_record = user_records.iloc[0]
+            health_record = "No health record available"
+        else:
+            health_record = user_records.iloc[0]
 
         user_preferences = self.df.loc[self.df['user_id'] == user_id, 'preferences']
         if user_preferences.empty:
             print(f"Warning: No preferences found for user_id: {user_id}")
-        preferences = user_preferences.iloc[0]
+            preferences = "No preferences available"
+        else:
+            preferences = user_preferences.iloc[0]
 
         user_target_nutrients = self.df.loc[self.df['user_id'] == user_id, 'target_nutrients']
         if user_target_nutrients.empty:
             print(f"Warning: No target nutrients found for user_id: {user_id}")
-        target_nutrients = user_target_nutrients.iloc[0]
+            target_nutrients = "No target nutrients available"
+        else:
+            target_nutrients = user_target_nutrients.iloc[0]
 
         recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary, preferences, target_nutrients)
         if isinstance(recs, AIMessage):
