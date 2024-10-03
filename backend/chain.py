@@ -183,7 +183,7 @@ class Chain:
 
     def process_nutrition_and_health(self, image, user_id=None, meals_summary=None):
         nutritional_info = self.extract_nutritional_info(image)
-        #print("checking reccomendations   ", nutritional_info)
+        
         if user_id is None or self.df.empty or 'user_id' not in self.df.columns:
             print("Warning: Unable to retrieve health record. User ID is None or DataFrame is invalid.")
             return None
@@ -193,21 +193,21 @@ class Chain:
             print(f"Warning: No health record found for user_id: {user_id}")
             health_record = "No health record available"
         else:
-            health_record = user_records.iloc[0]
+            health_record = user_records.iloc[0] if len(user_records) > 0 else "No health record available"
 
         user_preferences = self.df.loc[self.df['user_id'] == user_id, 'preferences']
         if user_preferences.empty:
             print(f"Warning: No preferences found for user_id: {user_id}")
             preferences = "No preferences available"
         else:
-            preferences = user_preferences.iloc[0]
+            preferences = user_preferences.iloc[0] if len(user_preferences) > 0 else "No preferences available"
 
         user_target_nutrients = self.df.loc[self.df['user_id'] == user_id, 'target_nutrients']
         if user_target_nutrients.empty:
             print(f"Warning: No target nutrients found for user_id: {user_id}")
             target_nutrients = "No target nutrients available"
         else:
-            target_nutrients = user_target_nutrients.iloc[0]
+            target_nutrients = user_target_nutrients.iloc[0] if len(user_target_nutrients) > 0 else "No target nutrients available"
 
         recs = self.assess_health_compatibility(health_record, nutritional_info, meals_summary, preferences, target_nutrients)
         if isinstance(recs, AIMessage):
