@@ -7,9 +7,27 @@ from langchain_google_vertexai import VertexAI
 from langchain.schema import AIMessage 
 from vertexai.vision_models import ImageTextModel
 import io
+import os
 import PIL
+import warnings
+import logging
 
+import hashlib
+from cachetools import cached, TTLCache
+
+from langsmith import traceable
 from vertexai.preview.generative_models import GenerativeModel, Image
+
+# Suppress specific warnings
+warnings.filterwarnings("ignore", category=ResourceWarning, message="unclosed.*<ssl.SSLSocket.*>")
+
+# Suppress TensorFlow logging
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # FATAL
+logging.getLogger('tensorflow').setLevel(logging.FATAL)
+
+# Suppress other logging
+logging.getLogger('absl').setLevel(logging.ERROR)
+logging.getLogger('grpc').setLevel(logging.ERROR)
 
 class Chain:
     def __init__(self, df):
@@ -18,6 +36,7 @@ class Chain:
         self.model = GenerativeModel("gemini-1.5-pro-001")
         self.nutritional_parser = PydanticOutputParser(pydantic_object=NutritionFacts)
         self.health_recommendation_parser = PydanticOutputParser(pydantic_object=HealthRecommendation)
+        self.cache = TTLCache(maxsize=1000, ttl=86400) 
 
     #### reference method for image analysis
     # def analyze_image(self):
@@ -27,50 +46,69 @@ class Chain:
     #     response = self.model.generate_content([prompt_image_summary, image])
     #     return response
 
+    @traceable(name="extract_nutritional_info_from_image")
     def extract_nutritional_info(self, image):
-        img = PIL.Image.open(image)
-        buffer = io.BytesIO()
-        img.save(buffer, format="PNG")
-        image = Image.from_bytes(buffer.getvalue())
-        prompt_nutritional_info = """
-            Analyze the image of the food product and extract the following nutritional information:
-            1. Product name and brand
-            2. Serving size
-            3. Calories per serving
-            4. Macronutrients (protein, carbohydrates, fats) per serving
-            5. Sugar content
-            6. Sodium content
-            7. Fiber content
-            8. Vitamins and minerals (if available)
-            9. List of ingredients
-            10. Any health claims or certifications on the packaging
+        try:
+            with PIL.Image.open(image) as img:
+                buffer = io.BytesIO()
+                img.save(buffer, format="PNG")
+                image_bytes = buffer.getvalue()
+            
+            image = Image.from_bytes(image_bytes)
+            prompt_nutritional_info = """
+                Analyze the image of the food product and extract the following nutritional information:
+                1. Product name and brand
+                2. Serving size
+                3. Calories per serving
+                4. Macronutrients (protein, carbohydrates, fats) per serving
+                5. Sugar content
+                6. Sodium content
+                7. Fiber content
+                8. Vitamins and minerals (if available)
+                9. List of ingredients
+                10. Any health claims or certifications on the packaging
 
-            Present the information in a structured format, focusing on accuracy and completeness.
-            If any information is not visible or available, indicate that it's not provided.
-            Please estimate the calories_per_serving on your own if not provided.
-            Format the output using the following structure:
-            {
-                "product_name": "Product name and brand",
-                "serving_size": "Serving size",
-                "calories_per_serving": "Calories per serving",
-                "macronutrients": {
-                    "protein": "Protein content per serving",
-                    "carbohydrates": "Carbohydrate content per serving",
-                    "fats": "Fat content per    serving"
-                },
-                "sugar_content": "Sugar content per serving",
-                "sodium_content": "Sodium content per serving",
-                "fiber_content": "Fiber content per serving",
-                "vitamins_and_minerals": "Vitamins and minerals per serving",
-                "ingredients": "List of ingredients",
-                "health_claims": "Health claims or certifications"
-            }
-            """
+                Present the information in a structured format, focusing on accuracy and completeness.
+                If any information is not visible or available, indicate that it's not provided.
+                Please estimate the calories_per_serving on your own if not provided.
+                Format the output using the following structure:
+                {
+                    "product_name": "Product name and brand",
+                    "serving_size": "Serving size",
+                    "calories_per_serving": "Calories per serving",
+                    "macronutrients": {
+                        "protein": "Protein content per serving",
+                        "carbohydrates": "Carbohydrate content per serving",
+                        "fats": "Fat content per serving"
+                    },
+                    "sugar_content": "Sugar content per serving",
+                    "sodium_content": "Sodium content per serving",
+                    "fiber_content": "Fiber content per serving",
+                    "vitamins_and_minerals": "Vitamins and minerals per serving",
+                    "ingredients": "List of ingredients",
+                    "health_claims": "Health claims or certifications"
+                }
+                """
+            cache_key = self._generate_cache_key(image_bytes)
+            
+            if cache_key in self.cache:
+                print("Using cached response for extract_nutritional_info")
+                return self.cache[cache_key]
 
-        response = self.model.generate_content([prompt_nutritional_info, image])
-        return response.text
+            response = self.model.generate_content([prompt_nutritional_info, image])
+            result = response.text
+            self.cache[cache_key] = result
+            return result
+        except Exception as e:
+            print(f"Error in extract_nutritional_info: {e}")
+            return None
+        finally:
+            if img and isinstance(img, PIL.Image.Image) and img != image:
+                img.close()
+            # Close the buffer
+            buffer.close()
     
-
+    @traceable(name="calculate_expenditure_in_excercise")
     def calculate_expenditure_in_excercise(self, calories):
         prompt_calculate_excercise = f"""
         Provide a rough estimate of the time required to burn {calories} calories for an average adult doing moderate-intensity exercise. 
@@ -86,6 +124,7 @@ class Chain:
         response = self.model.generate_content(prompt_calculate_excercise)
         return response.text
     
+    @traceable(name="extract_calories_info_from_image")
     def extract_calories_info(self, image):
         img = PIL.Image.open(image)
         buffer = io.BytesIO()
@@ -109,6 +148,7 @@ class Chain:
         return response.text
 
     #### TODO: update prompt for meal summary, make it more instructive
+    @traceable(name="assess_health_compatibility")
     def assess_health_compatibility(self, health_record, nutritional_info, meals_summary, preferences, target_nutrients):
         prompt = ChatPromptTemplate.from_template(
             "Analyze the compatibility of a food product with a user's health profile and dietary habits. "
@@ -135,16 +175,32 @@ class Chain:
             "- Sources: [List relevant nutritional or medical sources used for this assessment]\n\n"
             "Ensure your response is evidence-based, balanced, and tailored to the user's specific health profile, dietary habits, and target nutrients."
         )
+        combined_input = json.dumps({
+            "health_record": health_record,
+            "nutritional_info": nutritional_info,
+            "meals_summary": meals_summary,
+            "preferences": preferences,
+            "target_nutrients": target_nutrients
+        }, sort_keys=True)
+        cache_key = self._generate_cache_key(combined_input)
+
+        if cache_key in self.cache:
+            print("Using cached response for assess_health_compatibility")
+            return self.cache[cache_key]
+
         chain = prompt | self.llm 
-        return chain.invoke({
+        result = chain.invoke({
             "health_record": health_record,
             "nutritional_info": nutritional_info,
             "meals_summary": meals_summary,
             "preferences": preferences,
             "target_nutrients": target_nutrients
         })
+        self.cache[cache_key] = result
+        return result
     
     # Extract health summary from a health record
+    @traceable(name="extract_nutritional_info_from_image")
     def get_health_summary(self, health_record):
         prompt = ChatPromptTemplate.from_template(
             "Given the following health record, extract a concise summary of the patient's "
@@ -157,6 +213,7 @@ class Chain:
         return chain.invoke({"health_record": health_record})
     
     # Compute the daily calorie/ nutrient intake of the user from health record
+    @traceable(name="get_daily_intake")
     def get_daily_intake(self, health_record):
         prompt = ChatPromptTemplate.from_template(
             "Given the following health record, using medical conditions, height, weight, age, gender, activity level, "
@@ -168,6 +225,7 @@ class Chain:
         chain = prompt | self.llm
         return chain.invoke({"health_record": health_record})
 
+    @traceable(name="assess_pros_cons")
     def assess_pros_cons(self, nutritional_info):
         prompt = ChatPromptTemplate.from_template(
             "Given the following nutritional information, "
@@ -237,3 +295,13 @@ class Chain:
         excercise = self.calculate_expenditure_in_excercise(calories)
         print("excercises ", excercise)
         return excercise
+    
+    def _generate_cache_key(self, input):
+        """
+        Generate a unique cache key based on the input string.
+        """
+        if isinstance(input, str):
+            input = input.encode('utf-8')
+        image_hash = hashlib.sha256(input).hexdigest()
+        key = f"{image_hash}"
+        return key
