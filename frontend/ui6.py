@@ -102,9 +102,9 @@ def user_home_tab(user_id):
     # Display a card-like UI
     st.markdown(
         """
-        <div style="border-radius: 12px; padding: 20px;">
-            <h3 style="color: #FFFFFF;">Track Your Progress</h3>
-            <p style="color: #CCCCCC;">Monitor your health and wellness goals. Select a date to see your records and insights.</p>
+        <div style="border-radius: 12px; padding: 20px">
+            <h3>Track Your Progress</h3>
+            <p>Monitor your health and wellness goals. Select a date to see your records and insights.</p>
         </div>
         """, unsafe_allow_html=True
     )
@@ -117,39 +117,20 @@ def user_home_tab(user_id):
         if not user_id:
             st.error("Please enter your User ID.")
         else:
-            try:
-                # Call analyze_meal_habits API
-                api_url = BASE_URL + f"/analyze_meal_habits/{user_id}"
-                data = {"timestamp": str(selected_date)}
-                response = requests.post(api_url, json=data)
+            # Prepare data for the POST request
+            timestamp = selected_date.isoformat()  # Convert date to ISO format
+            data = {
+                'timestamp': timestamp
+            }
+            # Send POST request to analyze meal habits
+            response = requests.post(f"{BASE_URL}/analyze_meal_habits/{user_id}", json=data)
 
-                if response.status_code == 200:
-                    result = response.json()
-                    
-                    # Display notifications
-                    st.subheader("Today's Notifications")
-                    st.markdown(result['notifications'])
-
-                    # Display habit analysis
-                    st.subheader("Habit Analysis")
-                    st.markdown(result['habit_analysis'])
-
-                    # Display motivational quotes
-                    st.subheader("Motivational Quotes")
-                    selected_quotes = random.sample(motivational_quotes, k=random.randint(3, 5))
-                    for quote in selected_quotes:
-                        st.markdown(
-                            f"""
-                            <div style="border-radius: 10px; background-color: #E0F7FA; padding: 15px; 
-                                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 10px;">
-                                <h4 style="color: #00796B;">{quote}</h4>
-                            </div>
-                            """, unsafe_allow_html=True
-                        )
-                else:
-                    st.error(f"Error {response.status_code}: {response.text}")
-            except Exception as e:
-                st.error(f"An error occurred: {e}")
+            if response.status_code == 200:
+                result = response.json()
+                st.success("Meal habits analyzed successfully!")
+                st.markdown(result['analysis'])
+            else:
+                st.error(f"Error {response.status_code}: {response.text}")
 
 def scan_tab(user_id):
     st.header("Analyze Product & Burn Calories")
