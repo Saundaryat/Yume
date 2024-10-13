@@ -169,9 +169,11 @@ class HealthAnalyzer:
             meal_data_str = user_meals.to_string(index=False)
             analysis = self.chain.habit_analysis_with_suggestions(meal_data_str, timestamp)
             print("analysis: ", analysis)
-            result = json.loads(analysis)
-            print("result: ", result)
-            return {"analysis": result}
+            try:
+                json_result = json.loads(analysis)
+                return json_result
+            except json.JSONDecodeError:
+                return {"analysis": analysis}
         except Exception as e:
             error_message = f"An error occurred while analyzing meal habits: {str(e)}"
             print(error_message)
