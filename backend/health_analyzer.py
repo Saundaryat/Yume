@@ -158,3 +158,21 @@ class HealthAnalyzer:
             print(error_message)
             return {"error": error_message}
     
+    def analyze_meal_habits(self, user_id, timestamp):
+        try:
+            meals_data = pd.read_csv('data/meals_data.csv')
+            user_meals = meals_data[meals_data['user_id'] == user_id]
+            
+            if user_meals.empty:
+                return {"message": "No meal data found for this user"}
+            
+            meal_data_str = user_meals.to_string(index=False)
+            analysis = self.chain.habit_analysis_with_suggestions(meal_data_str, timestamp)
+            print("analysis: ", analysis)
+            result = json.loads(analysis)
+            print("result: ", result)
+            return {"analysis": result}
+        except Exception as e:
+            error_message = f"An error occurred while analyzing meal habits: {str(e)}"
+            print(error_message)
+            return {"error": error_message}

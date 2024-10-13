@@ -137,7 +137,14 @@ class APP:
             preferences = data['preferences']   
             result = self.health_analyzer.add_user_preferences(user_id, preferences)
             return jsonify(result)
-            
+        
+        ### Analyze Meal Habits: Analyze the meal habits of the user
+        @self.app.route('/analyze_meal_habits/<string:user_id>', methods=['POST'])
+        def analyze_meal_habits(user_id):
+            data = request.json
+            timestamp = data.get('timestamp')
+            result = self.health_analyzer.analyze_meal_habits(user_id, timestamp)
+            return jsonify(result)
 
     def run(self):
         self.app.run(port=self.port)

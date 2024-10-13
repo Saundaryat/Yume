@@ -4,7 +4,7 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from models import NutritionalInfo, HealthRecommendation, NutritionFacts
 from langchain_google_vertexai import VertexAI
-from langchain.schema import AIMessage 
+from langchain.schema import AIMessage, HumanMessage
 from vertexai.vision_models import ImageTextModel
 import io
 import os
@@ -211,6 +211,34 @@ class Chain:
         )
         chain = prompt | self.llm
         return chain.invoke({"health_record": health_record})
+    
+    # helper function to analyze meal pattern and suggest improvements
+    @traceable(name="analyze_meal_pattern_and_suggest_improvements")
+    def habit_analysis_with_suggestions(self, meal_data, timestamp):
+        prompt = ChatPromptTemplate.from_template(
+            """We are building a health app. Given user behavior/meal logs, analyze the behavior, identify patterns, 
+            common mistakes/bad habits, and good habits the user has. We want to nudge the user with notifications 
+            and encourage them to stay consistent with their good habits, motivate them to avoid repeating bad habits, 
+            and provide suggestions to improve, including alternatives to their less healthy meal choices.
+            Given the current timestamp {timestamp}, generate the following output:
+            1. Notifications: Create sample notifications for 10am, 2pm, and 6:30 pm today. Each notification should be 
+               encouraging, specific to the user's habits, and offer a practical suggestion.
+            2. Habit Analysis: Provide a detailed analysis of the user's meal patterns, including:
+               - Identified patterns for each meal (breakfast, lunch, dinner, snacks)
+               - Good habits observed
+               - Areas for improvement
+               - Specific suggestions for healthier choices
+            Meal Pattern Data: {meal_data}
+            Format the output using the following structure strictly in JSON format:
+            {{
+                "notifications": "10:00 AM Notification: ...\n2:00 PM Notification: ...\n6:30 PM Notification: ...",
+                "habit_analysis": "Patterns Identified:\n...\n\nGood Habits:\n...\n\nAreas for Improvement:\n...\n\nSuggestions:\n..."
+            }}
+            """
+        )
+        chain = prompt | self.llm
+        result = chain.invoke({"meal_data": meal_data, "timestamp": timestamp})
+        return result.content
     
     # Compute the daily calorie/ nutrient intake of the user from health record
     @traceable(name="get_daily_intake")
