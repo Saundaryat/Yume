@@ -117,22 +117,39 @@ def user_home_tab(user_id):
         if not user_id:
             st.error("Please enter your User ID.")
         else:
-            # Display success message
-            st.success(f"Displaying insights for {selected_date}.")
+            try:
+                # Call analyze_meal_habits API
+                api_url = BASE_URL + f"/analyze_meal_habits/{user_id}"
+                data = {"timestamp": str(selected_date)}
+                response = requests.post(api_url, json=data)
 
-            # Select 3 to 5 random quotes
-            selected_quotes = random.sample(motivational_quotes, k=random.randint(3, 5))
+                if response.status_code == 200:
+                    result = response.json()
+                    
+                    # Display notifications
+                    st.subheader("Today's Notifications")
+                    st.markdown(result['notifications'])
 
-            # Display each quote in a styled box
-            for quote in selected_quotes:
-                st.markdown(
-                    f"""
-                    <div style="border-radius: 10px; background-color: #E0F7FA; padding: 15px; 
-                                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 10px;">
-                        <h4 style="color: #00796B;">{quote}</h4>
-                    </div>
-                    """, unsafe_allow_html=True
-                )
+                    # Display habit analysis
+                    st.subheader("Habit Analysis")
+                    st.markdown(result['habit_analysis'])
+
+                    # Display motivational quotes
+                    st.subheader("Motivational Quotes")
+                    selected_quotes = random.sample(motivational_quotes, k=random.randint(3, 5))
+                    for quote in selected_quotes:
+                        st.markdown(
+                            f"""
+                            <div style="border-radius: 10px; background-color: #E0F7FA; padding: 15px; 
+                                        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 10px;">
+                                <h4 style="color: #00796B;">{quote}</h4>
+                            </div>
+                            """, unsafe_allow_html=True
+                        )
+                else:
+                    st.error(f"Error {response.status_code}: {response.text}")
+            except Exception as e:
+                st.error(f"An error occurred: {e}")
 
 def scan_tab(user_id):
     st.header("Analyze Product & Burn Calories")
