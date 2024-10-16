@@ -229,11 +229,12 @@ class Chain:
                - Areas for improvement
                - Specific suggestions for healthier choices
             Meal Pattern Data: {meal_data}
-            Format the output using the following structure strictly in JSON format:
-            {{
-                "notifications": "10:00 AM Notification: ...\n2:00 PM Notification: ...\n6:30 PM Notification: ...",
-                "habit_analysis": "Patterns Identified:\n...\n\nGood Habits:\n...\n\nAreas for Improvement:\n...\n\nSuggestions:\n..."
-            }}
+            Provide the output as a structured summary in markdown format:
+            "Patterns Identified:\n...
+            \n\nGood Habits:\n...
+            \n\nAreas for Improvement:\n...
+            \n\nSuggestions:\n...
+            \n\nNotifications:10:00 AM Notification: ...,2:00 PM Notification: ...,6:30 PM Notification: ..."
             """
         )
         chain = prompt | self.llm

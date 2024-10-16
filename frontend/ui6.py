@@ -3,6 +3,7 @@ import requests
 from streamlit_lottie import st_lottie
 import json
 import random
+import random
 
 with open('config/config.json', 'r') as config_file:
     config = json.load(config_file)
@@ -89,7 +90,7 @@ motivational_quotes = [
     "Believe in yourself!",
     "Success is just around the corner.",
     "The journey of a thousand miles begins with one step.",
-    "Don’t stop until you’re proud.",
+    "Don't stop until you're proud.",
     "Consistency is the key to success.",
     "Your potential is limitless.",
     "Stay positive, work hard, and make it happen!"
@@ -102,8 +103,7 @@ def user_home_tab(user_id):
     # Display a card-like UI
     st.markdown(
         """
-        <div style="border-radius: 12px; background-color: #ffffff; padding: 20px; 
-                    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+        <div style="border-radius: 12px; padding: 20px">
             <h3>Track Your Progress</h3>
             <p>Monitor your health and wellness goals. Select a date to see your records and insights.</p>
         </div>
@@ -118,22 +118,20 @@ def user_home_tab(user_id):
         if not user_id:
             st.error("Please enter your User ID.")
         else:
-            # Display success message
-            st.success(f"Displaying insights for {selected_date}.")
+            # Prepare data for the POST request
+            timestamp = selected_date.isoformat()  # Convert date to ISO format
+            data = {
+                'timestamp': timestamp
+            }
+            # Send POST request to analyze meal habits
+            response = requests.post(f"{BASE_URL}/analyze_meal_habits/{user_id}", json=data)
 
-            # Select 3 to 5 random quotes
-            selected_quotes = random.sample(motivational_quotes, k=random.randint(3, 5))
-
-            # Display each quote in a styled box
-            for quote in selected_quotes:
-                st.markdown(
-                    f"""
-                    <div style="border-radius: 10px; background-color: #E0F7FA; padding: 15px; 
-                                box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); margin-top: 10px;">
-                        <h4 style="color: #00796B;">{quote}</h4>
-                    </div>
-                    """, unsafe_allow_html=True
-                )
+            if response.status_code == 200:
+                result = response.json()
+                st.success("Meal habits analyzed successfully!")
+                st.markdown(result['analysis'])
+            else:
+                st.error(f"Error {response.status_code}: {response.text}")
 
 def scan_tab(user_id):
     st.header("Analyze Product & Burn Calories")
