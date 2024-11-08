@@ -34,7 +34,7 @@ logging.getLogger('absl').setLevel(logging.ERROR)
 logging.getLogger('grpc').setLevel(logging.ERROR)
 
 class Chain:
-    def __init__(self, df, config_file="data/config.yaml"):
+    def __init__(self, df, config_file="config/config.yaml"):
         # Load configuration from the YAML file
         with open(config_file, 'r') as file:
             config = yaml.safe_load(file)

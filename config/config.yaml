@@ -1,0 +1,12 @@
+project:
+  id: "wf-gcp-us-estetica2-sbx"
+  region: "us-central1"
+google:
+  service_account_file: "config/keys.json"
+llm:
+  model: "gemini-1.5-pro"
+cache:
+  maxsize: 1000
+  ttl: 86400
+
+
