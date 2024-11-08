@@ -6,8 +6,12 @@ from models import NutritionalInfo, HealthRecommendation, NutritionFacts
 from langchain_google_vertexai import VertexAI
 from langchain.schema import AIMessage, HumanMessage
 from vertexai.vision_models import ImageTextModel
+from google.oauth2 import service_account
+from google.auth import default
+import numpy as np
 import io
 import os
+import yaml
 import PIL
 import warnings
 import logging
@@ -30,13 +34,31 @@ logging.getLogger('absl').setLevel(logging.ERROR)
 logging.getLogger('grpc').setLevel(logging.ERROR)
 
 class Chain:
-    def __init__(self, df):
+    def __init__(self, df, config_file="data/config.yaml"):
+        # Load configuration from the YAML file
+        with open(config_file, 'r') as file:
+            config = yaml.safe_load(file)
+
+        # Set up instance variables from the configuration
         self.df = df
-        self.llm = ChatVertexAI(model="gemini-1.5-pro")
-        self.model = GenerativeModel("gemini-1.5-pro-001")
+        self.project_id = config["project"]["id"]
+        self.region = config["project"]["region"]
+        service_account_file = config["google"]["service_account_file"]
+        llm_model = config["llm"]["model"]
+        cache_maxsize = config["cache"]["maxsize"]
+        cache_ttl = config["cache"]["ttl"]
+
+        # Initialize credentials and environment variables
+        credentials = service_account.Credentials.from_service_account_file(service_account_file)
+        print(f"Authenticated with service account: {credentials.service_account_email}")
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_file
+
+        # Initialize LLM and cache with loaded configuration values
+        self.llm = ChatVertexAI(model=llm_model, credentials=credentials)
+        self.model = GenerativeModel(f"{llm_model}-001")
         self.nutritional_parser = PydanticOutputParser(pydantic_object=NutritionFacts)
         self.health_recommendation_parser = PydanticOutputParser(pydantic_object=HealthRecommendation)
-        self.cache = TTLCache(maxsize=1000, ttl=86400) 
+        self.cache = TTLCache(maxsize=cache_maxsize, ttl=cache_ttl)
 
     #### reference method for image analysis
     # def analyze_image(self):
@@ -146,6 +168,20 @@ class Chain:
 
         response = self.model.generate_content([prompt_calories_count, image])
         return response.text
+    
+    @staticmethod    # Function to convert non-serializable types to JSON-friendly types
+    def convert_types(obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        elif isinstance(obj, np.floating):
+            return float(obj)
+        elif isinstance(obj, np.ndarray):  # Convert numpy arrays to lists
+            return obj.tolist()
+        elif isinstance(obj, dict):
+            return {key: Chain.convert_types(value) for key, value in obj.items()}
+        elif isinstance(obj, list):
+            return [Chain.convert_types(item) for item in obj]
+        return obj
 
     #### TODO: update prompt for meal summary, make it more instructive
     @traceable(name="assess_health_compatibility")
@@ -175,14 +211,16 @@ class Chain:
             "- Sources: [List relevant nutritional or medical sources used for this assessment]\n\n"
             "Ensure your response is evidence-based, balanced, and tailored to the user's specific health profile, dietary habits, and target nutrients."
         )
-        combined_input = json.dumps({
+        # Apply the conversion function to each dictionary entry
+        combined_input = json.dumps(self.convert_types({
             "health_record": health_record,
             "nutritional_info": nutritional_info,
             "meals_summary": meals_summary,
             "preferences": preferences,
             "target_nutrients": target_nutrients
-        }, sort_keys=True)
-        cache_key = self._generate_cache_key(combined_input)
+        }), sort_keys=True)
+
+        cache_key = combined_input
 
         if cache_key in self.cache:
             print("Using cached response for assess_health_compatibility")
