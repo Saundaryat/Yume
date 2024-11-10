@@ -1,6 +1,16 @@
 from flask import Flask, request, jsonify
+from functools import wraps
 import json
 import pandas as pd
+import firebase_admin
+from firebase_admin import auth, credentials
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
+# Initialize Firebase Admin SDK
+cred = credentials.Certificate("config/firebase_key.json")
+firebase_admin.initialize_app(cred)
+
 class APP:
     def __init__(self, health_analyzer, search):
         self.app = Flask(__name__)
@@ -9,6 +19,12 @@ class APP:
         self.df = pd.read_csv('data/user_data.csv')
         self.config = self.load_config()
         self.port = self.config.get('PORT', 5001)
+        # Initialize Limiter
+        self.limiter = Limiter(
+            get_remote_address,  # Use user's IP address as the key
+            app=self.app,
+            default_limits=["200 per day", "50 per hour"]  # Set default rate limits
+        )
         self.setup_routes()
 
     def load_config(self):
@@ -20,14 +36,31 @@ class APP:
         def a_live():
             return "Alive!"
 
+        def token_required(f):
+            @wraps(f)
+            def decorated(*args, **kwargs):
+                auth_header = request.headers.get("Authorization")
+                if not auth_header:
+                    return jsonify({"error": "Token is missing!"}), 401
+                token = auth_header.split(" ")[1]
+                try:
+                    decoded_token = auth.verify_id_token(token)
+                    request.user = decoded_token  # Attach user info to request
+                except Exception as e:
+                    return jsonify({"error": "Invalid token!"}), 401
+                return f(*args, **kwargs)
+            return decorated
         ### Analyze Product: Return health recommendation
         @self.app.route('/analyze_product', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def analyze_product():
             if 'image_file' not in request.files:
                 return jsonify({"error": "No image file provided"}), 400
 
             image_file = request.files['image_file']
             user_id = request.form.get('user_id')
+            uid = request.user.get("user_id")
 
             if not user_id:
                 return jsonify({"error": "No user ID provided"}), 400

@@ -8,7 +8,12 @@ def calorie_intake_tab(user_id, BASE_URL):
 
     if st.button("Add Meal") and uploaded_file:
         files = {'image_file': uploaded_file.getvalue()}
-        response = requests.post(f"{BASE_URL}/calculate_calories", files=files, data={'user_id': user_id, 'meal_type': meal_type})
+        id_token = st.session_state.get("id_token")
+        if not id_token:
+            st.error("User is not authenticated.")
+            return
+        headers = {"Authorization": f"Bearer {id_token}"}
+        response = requests.post(f"{BASE_URL}/calculate_calories", headers=headers, files=files, data={'user_id': user_id, 'meal_type': meal_type})
         if response.status_code == 200:
             result = response.json()
             st.subheader("Calorie Calculation Result")

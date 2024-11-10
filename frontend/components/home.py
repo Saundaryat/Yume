@@ -19,7 +19,13 @@ def user_home_tab(user_id, BASE_URL):
             st.error("Please enter your User ID.")
         else:
             data = {'timestamp': selected_date.isoformat()}
-            response = requests.post(f"{BASE_URL}/analyze_meal_habits/{user_id}", json=data)
+            id_token = st.session_state.get("id_token")
+            if not id_token:
+                st.error("User is not authenticated.")
+                return
+            headers = {"Authorization": f"Bearer {id_token}"}
+
+            response = requests.post(f"{BASE_URL}/analyze_meal_habits/{user_id}",  headers=headers, json=data)
             if response.status_code == 200:
                 result = response.json()
                 st.success("Meal habits analyzed successfully!")

@@ -8,8 +8,22 @@ def scan_tab(user_id, BASE_URL):
     
     if st.button("Analyze Product"):
         if uploaded_file and user_id:
+            # Retrieve the Firebase ID token from session state
+            id_token = st.session_state.get("id_token")
+            if not id_token:
+                st.error("User is not authenticated.")
+                return
+
+            # Set up headers with the token
+            headers = {"Authorization": f"Bearer {id_token}"}
+
+            # Prepare files and data for the request
             files = {'image_file': uploaded_file.getvalue()}
-            response = requests.post(f"{BASE_URL}/analyze_product", files=files, data={'user_id': user_id})
+            data = {'user_id': user_id}
+
+            # Send the request to the backend with the headers
+            response = requests.post(f"{BASE_URL}/analyze_product", headers=headers, files=files, data=data)
+            
             if response.status_code == 200:
                 result = response.json()
                 st.subheader("Analysis Result")
