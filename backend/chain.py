@@ -8,7 +8,6 @@ from langchain.schema import AIMessage, HumanMessage
 from vertexai.vision_models import ImageTextModel
 from google.oauth2 import service_account
 from google.auth import default
-from google_setup import initialize_google
 import numpy as np
 import io
 import os
@@ -49,13 +48,11 @@ class Chain:
         cache_maxsize = config["cache"]["maxsize"]
         cache_ttl = config["cache"]["ttl"]
 
-        # Initialize credentials and environment variables
-        credentials = initialize_google()
-        print(f"Authenticated with service account: {credentials.service_account_email}")
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_file
 
+
         # Initialize LLM and cache with loaded configuration values
-        self.llm = ChatVertexAI(model=llm_model, credentials=credentials)
+        self.llm = ChatVertexAI(model=llm_model)
         self.model = GenerativeModel(f"{llm_model}-001")
         self.nutritional_parser = PydanticOutputParser(pydantic_object=NutritionFacts)
         self.health_recommendation_parser = PydanticOutputParser(pydantic_object=HealthRecommendation)
