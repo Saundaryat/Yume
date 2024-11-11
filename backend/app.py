@@ -1,15 +1,14 @@
 from flask import Flask, request, jsonify
 from functools import wraps
+import os
 import json
+import yaml
 import pandas as pd
 import firebase_admin
 from firebase_admin import auth, credentials
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-
-# Initialize Firebase Admin SDK
-cred = credentials.Certificate("config/firebase_key.json")
-firebase_admin.initialize_app(cred)
+from firebase_setup import initialize_firebase
 
 class APP:
     def __init__(self, health_analyzer, search):
@@ -19,17 +18,27 @@ class APP:
         self.df = pd.read_csv('data/user_data.csv')
         self.config = self.load_config()
         self.port = self.config.get('PORT', 5001)
-        # Initialize Limiter
+        initialize_firebase()
         self.limiter = Limiter(
-            get_remote_address,  # Use user's IP address as the key
+            get_remote_address,
             app=self.app,
-            default_limits=["200 per day", "50 per hour"]  # Set default rate limits
+            default_limits=["20 per day", "5 per hour"]
         )
         self.setup_routes()
 
     def load_config(self):
-        with open('./config/config.json') as config_file:
-            return json.load(config_file)
+        # Load YAML configuration file
+        with open('./config/config-prod.yaml', 'r') as config_file:
+            config = yaml.safe_load(config_file)
+        
+        # Substitute sensitive fields with environment variables
+        google_service_account = config['google']['service_account']
+        firebase_service_account = config['firebase']['service_account']
+        
+        google_service_account['private_key'] = os.getenv('GOOGLE_PRIVATE_KEY')
+        firebase_service_account['private_key'] = os.getenv('FIREBASE_PRIVATE_KEY')
+
+        return config
 
     def setup_routes(self):
         @self.app.route('/status', methods=['GET'])
@@ -60,7 +69,6 @@ class APP:
 
             image_file = request.files['image_file']
             user_id = request.form.get('user_id')
-            uid = request.user.get("user_id")
 
             if not user_id:
                 return jsonify({"error": "No user ID provided"}), 400

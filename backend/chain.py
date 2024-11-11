@@ -8,6 +8,7 @@ from langchain.schema import AIMessage, HumanMessage
 from vertexai.vision_models import ImageTextModel
 from google.oauth2 import service_account
 from google.auth import default
+from google_setup import initialize_google
 import numpy as np
 import io
 import os
@@ -49,7 +50,7 @@ class Chain:
         cache_ttl = config["cache"]["ttl"]
 
         # Initialize credentials and environment variables
-        credentials = service_account.Credentials.from_service_account_file(service_account_file)
+        credentials = initialize_google()
         print(f"Authenticated with service account: {credentials.service_account_email}")
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_file
 

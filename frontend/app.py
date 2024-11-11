@@ -8,6 +8,16 @@ from components.profile import dashboard_tab
 from components.calorie import calorie_intake_tab
 from utils.styles import apply_custom_styles
 
+# Firebase configuration
+firebase_config = {
+    "apiKey": "AIzaSyCFtq_XY0b2RNCgXjp5Zdn_AdQlQuVk1iU",
+    "authDomain": "yume-f1311.firebaseapp.com",
+    "databaseURL": "https://yume-f1311-default-rtdb.firebaseio.com",
+    "storageBucket": "yume-f1311.firebasestorage.app",
+    "messagingSenderId": "314253158282",
+    "appId": "1:314253158282:web:aa317ab11045cdb79e0a73"
+}
+
 # Initialize Firebase
 firebase = pyrebase.initialize_app(firebase_config)
 auth = firebase.auth()
