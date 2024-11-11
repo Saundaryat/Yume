@@ -85,6 +85,8 @@ class APP:
 
         ### Calculate Calories: Return nutrition information using image   
         @self.app.route('/calculate_calories', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def calculate_calories():
             print("checking request.files", request.files)
             if 'image_file' not in request.files:
@@ -110,12 +112,16 @@ class APP:
 
         ### Get User Health Summary: Return health summary of the user  
         @self.app.route('/user_health/<string:user_id>', methods=['GET'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def get_user_health(user_id):
             health_summary = self.health_analyzer.get_user_health_summary(user_id)
             return jsonify(health_summary)
 
         ### Upload User Health Record: Upload the health record of the user  
         @self.app.route('/health_record/', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def upload_user_health_record():
             if 'file' not in request.files:
                 return jsonify({"error": "No file provided"}), 400
@@ -173,6 +179,8 @@ class APP:
         
         ### Analyze Meal Habits: Analyze the meal habits of the user
         @self.app.route('/analyze_meal_habits/<string:user_id>', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def analyze_meal_habits(user_id):
             data = request.json
             timestamp = data.get('timestamp')
