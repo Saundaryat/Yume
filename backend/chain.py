@@ -48,11 +48,14 @@ class Chain:
         cache_maxsize = config["cache"]["maxsize"]
         cache_ttl = config["cache"]["ttl"]
 
+        # Initialize credentials and environment variables
+        credentials = service_account.Credentials.from_service_account_file(service_account_file)
+        print(f"Authenticated with service account: {credentials.service_account_email}")
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = service_account_file
 
 
         # Initialize LLM and cache with loaded configuration values
-        self.llm = ChatVertexAI(model=llm_model)
+        self.llm = ChatVertexAI(model=llm_model, credentials=credentials)
         self.model = GenerativeModel(f"{llm_model}-001")
         self.nutritional_parser = PydanticOutputParser(pydantic_object=NutritionFacts)
         self.health_recommendation_parser = PydanticOutputParser(pydantic_object=HealthRecommendation)

@@ -28,15 +28,8 @@ class APP:
 
     def load_config(self):
         # Load YAML configuration file
-        with open('./config/config-prod.yaml', 'r') as config_file:
+        with open('./config/config.yaml', 'r') as config_file:
             config = yaml.safe_load(config_file)
-        
-        # Substitute sensitive fields with environment variables
-        google_service_account = config['google']['service_account']
-        firebase_service_account = config['firebase']['service_account']
-        
-        google_service_account['private_key'] = os.getenv('GOOGLE_PRIVATE_KEY')
-        firebase_service_account['private_key'] = os.getenv('FIREBASE_PRIVATE_KEY')
 
         return config
 
