@@ -53,6 +53,25 @@ def load_lottie_file(filepath: str):
 
 # Add sidebar navigation
 def main():
+    # Insert custom HTML component here
+    st.components.v1.html(
+        """
+        <link rel="manifest" href="/static/manifest.json">
+        <script>
+          if ("serviceWorker" in navigator) {
+            navigator.serviceWorker
+              .register("/static/service-worker.js")
+              .then((registration) => {
+                console.log("Service Worker registered with scope:", registration.scope);
+              })
+              .catch((error) => {
+                console.log("Service Worker registration failed:", error);
+              });
+          }
+        </script>
+        """,
+        height=0,
+    )
     global BASE_URL
 
     st.sidebar.title("YuMe")
