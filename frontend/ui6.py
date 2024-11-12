@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 from streamlit_lottie import st_lottie
 import json
+import random
+import random
 
 with open('config/config.json', 'r') as config_file:
     config = json.load(config_file)
@@ -73,14 +75,13 @@ def main():
     global BASE_URL
 
     st.sidebar.title("YuMe")
-    
     st.sidebar.write("Welcome to the User Dashboard")
     user_id = st.sidebar.text_input("Enter your User ID")
-    
-    menu = ["Analyze Product", "User Profile", "Calorie Intake"]
+
+    menu = ["User Home", "Analyze Product", "User Profile", "Calorie Intake"]
     choice = st.sidebar.selectbox("Navigation", menu)
 
-    # Move Lottie animation to the top of the main page instead of the sidebar
+    # Move Lottie animation to the top of the main page
     col1, col2 = st.columns([1, 3])
     with col1:
         lottie_animation = load_lottie_file("frontend/animation/yumegrad.json")
@@ -91,12 +92,65 @@ def main():
         st.subheader("Guided by nutrition driven by you")
 
     # Navigate between tabs
-    if choice == "Analyze Product":
+    if choice == "User Home":
+        user_home_tab(user_id)
+    elif choice == "Analyze Product":
         scan_tab(user_id)
     elif choice == "User Profile":
         dashboard_tab(user_id)
     elif choice == "Calorie Intake":
         calorie_intake_tab(user_id)
+
+# List of motivational quotes
+motivational_quotes = [
+    "You can do it!",
+    "Keep pushing forward!",
+    "Every step counts.",
+    "Believe in yourself!",
+    "Success is just around the corner.",
+    "The journey of a thousand miles begins with one step.",
+    "Don't stop until you're proud.",
+    "Consistency is the key to success.",
+    "Your potential is limitless.",
+    "Stay positive, work hard, and make it happen!"
+]
+
+# Function to display the user home tab
+def user_home_tab(user_id):
+    st.header("Welcome to Your Home Page")
+
+    # Display a card-like UI
+    st.markdown(
+        """
+        <div style="border-radius: 12px; padding: 20px">
+            <h3>Track Your Progress</h3>
+            <p>Monitor your health and wellness goals. Select a date to see your records and insights.</p>
+        </div>
+        """, unsafe_allow_html=True
+    )
+
+    # Calendar input to select a date
+    selected_date = st.date_input("Select a Date to View Insights")
+
+    # Get insights button
+    if st.button("Get Insights"):
+        if not user_id:
+            st.error("Please enter your User ID.")
+        else:
+            # Prepare data for the POST request
+            timestamp = selected_date.isoformat()  # Convert date to ISO format
+            data = {
+                'timestamp': timestamp
+            }
+            # Send POST request to analyze meal habits
+            response = requests.post(f"{BASE_URL}/analyze_meal_habits/{user_id}", json=data)
+
+            if response.status_code == 200:
+                result = response.json()
+                st.success("Meal habits analyzed successfully!")
+                st.markdown(result['analysis'])
+            else:
+                st.error(f"Error {response.status_code}: {response.text}")
 
 def scan_tab(user_id):
     st.header("Analyze Product & Burn Calories")

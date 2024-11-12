@@ -3,8 +3,10 @@ old/
 .DS_Store
 .ipynb_checkpoints/
 secret.json
+keys.json
 .ipynb
 notebooks/
 __pycache__/
 saun/
 notebook/
+data/

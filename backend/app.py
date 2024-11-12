@@ -1,6 +1,15 @@
 from flask import Flask, request, jsonify
+from functools import wraps
+import os
 import json
+import yaml
 import pandas as pd
+import firebase_admin
+from firebase_admin import auth, credentials
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+from firebase_setup import initialize_firebase
+
 class APP:
     def __init__(self, health_analyzer, search):
         self.app = Flask(__name__)
@@ -9,19 +18,44 @@ class APP:
         self.df = pd.read_csv('data/user_data.csv')
         self.config = self.load_config()
         self.port = self.config.get('PORT', 5001)
+        initialize_firebase()
+        self.limiter = Limiter(
+            get_remote_address,
+            app=self.app,
+            default_limits=["20 per day", "5 per hour"]
+        )
         self.setup_routes()
 
     def load_config(self):
-        with open('./config/config.json') as config_file:
-            return json.load(config_file)
+        # Load YAML configuration file
+        with open('./config/config.yaml', 'r') as config_file:
+            config = yaml.safe_load(config_file)
+
+        return config
 
     def setup_routes(self):
         @self.app.route('/status', methods=['GET'])
         def a_live():
             return "Alive!"
 
+        def token_required(f):
+            @wraps(f)
+            def decorated(*args, **kwargs):
+                auth_header = request.headers.get("Authorization")
+                if not auth_header:
+                    return jsonify({"error": "Token is missing!"}), 401
+                token = auth_header.split(" ")[1]
+                try:
+                    decoded_token = auth.verify_id_token(token)
+                    request.user = decoded_token  # Attach user info to request
+                except Exception as e:
+                    return jsonify({"error": "Invalid token!"}), 401
+                return f(*args, **kwargs)
+            return decorated
         ### Analyze Product: Return health recommendation
         @self.app.route('/analyze_product', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def analyze_product():
             if 'image_file' not in request.files:
                 return jsonify({"error": "No image file provided"}), 400
@@ -52,6 +86,8 @@ class APP:
 
         ### Calculate Calories: Return nutrition information using image   
         @self.app.route('/calculate_calories', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def calculate_calories():
             print("checking request.files", request.files)
             if 'image_file' not in request.files:
@@ -77,12 +113,16 @@ class APP:
 
         ### Get User Health Summary: Return health summary of the user  
         @self.app.route('/user_health/<string:user_id>', methods=['GET'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def get_user_health(user_id):
             health_summary = self.health_analyzer.get_user_health_summary(user_id)
             return jsonify(health_summary)
 
         ### Upload User Health Record: Upload the health record of the user  
         @self.app.route('/health_record/', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
         def upload_user_health_record():
             if 'file' not in request.files:
                 return jsonify({"error": "No file provided"}), 400
@@ -137,7 +177,16 @@ class APP:
             preferences = data['preferences']   
             result = self.health_analyzer.add_user_preferences(user_id, preferences)
             return jsonify(result)
-            
+        
+        ### Analyze Meal Habits: Analyze the meal habits of the user
+        @self.app.route('/analyze_meal_habits/<string:user_id>', methods=['POST'])
+        @self.limiter.limit("5 per day")
+        @token_required
+        def analyze_meal_habits(user_id):
+            data = request.json
+            timestamp = data.get('timestamp')
+            result = self.health_analyzer.analyze_meal_habits(user_id, timestamp)
+            return jsonify(result)
 
     def run(self):
         self.app.run(port=self.port)
