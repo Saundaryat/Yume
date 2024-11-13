@@ -13,3 +13,4 @@ data/
 app/
 .gitignore
 *key.json
+node_modules/
