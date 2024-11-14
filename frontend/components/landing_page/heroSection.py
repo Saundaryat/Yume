@@ -11,7 +11,7 @@ def hero_section():
                 align-items: center;
                 # height: calc(80vh - 80px);
                 height: 60vh;
-                background: linear-gradient(90deg, #FF9800 0%, #FFEB3B 100%);
+                background: linear-gradient(90deg, #00BFA5 0%, #FFEB3B 100%);
                 color: white;  /* Making text white for better contrast */
             }
             .content {
@@ -37,7 +37,7 @@ def hero_section():
                 justify-content: center !important;
                 width: auto !important;
                 white-space: nowrap !important;
-                background: linear-gradient(90deg, #FF9800 0%, #FFEB3B 100%);
+                background: linear-gradient(90deg, #00BFA5 0%, #FFEB3B 100%);
                 padding-bottom: 20vh;
             }
             .stButton > button {

@@ -21,6 +21,24 @@ def indian_context():
                 position: relative;
                 overflow: hidden;
             }
+            .food-tracking-container::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5); 
+                z-index: 1;
+            }
+            .food-tracking-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 2;
+            }
             .food-tracking-container h1 {
                 font-size: 3rem;
                 margin-bottom: 1rem;
@@ -31,9 +49,11 @@ def indian_context():
             }
         </style>
         <div class="food-tracking-container">
-            <h1>The Indian Context!</h1>
-            <p>The first food app that caters to 1000+ Indian foods</p>
-            <p>Take a picture of your curries </p>
+            <div class="food-tracking-content">
+                <h1>The Indian Context!</h1>
+                <p>The first food app that caters to 1000+ Indian foods</p>
+                <p>Take a picture of your curries </p>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
