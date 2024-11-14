@@ -5,62 +5,54 @@ def integration_section():
         <style>
             .integration-container {
                 background-color: #1A1B1E;
-                padding: 60px 40px;
+                padding: 20px;  /* Reduced padding for mobile */
                 border-radius: 20px;
                 margin: 20px 0;
             }
-            .integration-header {
-                color: #ffffff;
-                margin-bottom: 40px;
-            }
-            .integration-subheader {
-                color: #9BA1A6;
-                font-size: 1.2rem;
-                margin-bottom: 30px;
-            }
             .integration-title {
-                font-size: 3rem;
+                font-size: 2rem;  /* Smaller font size for mobile */
                 font-weight: bold;
                 margin-bottom: 20px;
-                line-height: 1.2;
-            }
-            .app-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-                gap: 20px;
-                justify-content: end;
-                max-width: 600px;
-                margin-left: auto;
-            }
-            .app-icon {
-                background: white;
-                border-radius: 15px;
-                padding: 15px;
-                aspect-ratio: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            }
-            .app-icon img {
-                width: 100%;
-                height: 100%;
-                object-fit: contain;
+                line-height: 1.3;
             }
             .integration-content {
                 display: grid;
-                grid-template-columns: 1fr 1fr;
-                align-items: center;
-                gap: 40px;
+                grid-template-columns: 1fr;  /* Single column by default */
+                gap: 30px;
             }
-            @media (max-width: 768px) {
+            .app-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);  /* 2 columns by default */
+                gap: 15px;  /* Reduced gap for mobile */
+                margin: 0 auto;
+                max-width: 100%;  /* Full width on mobile */
+            }
+            .app-icon {
+                padding: 10px;  /* Reduced padding for mobile */
+            }
+            
+            /* Desktop styles */
+            @media (min-width: 768px) {
+                .integration-container {
+                    padding: 60px 40px;
+                }
                 .integration-content {
-                    grid-template-columns: 1fr;
+                    grid-template-columns: 1fr 1fr;
+                }
+                .integration-title {
+                    font-size: 3rem;
                 }
                 .app-grid {
-                    margin: 0 auto;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 20px;
+                    max-width: 600px;
+                    margin-left: auto;
+                }
+                .app-icon {
+                    padding: 15px;
                 }
             }
+            
         </style>
         
         <div class="integration-container">
