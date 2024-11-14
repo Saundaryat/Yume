@@ -1,130 +1,145 @@
 import streamlit as st
 
 def home_intro():
-    # CSS styling for the main container and sections
+    # Update CSS styling
     st.markdown(
         """
         <style>
             .section-container {
-                padding: 2rem;
-                background-color: #f9f9f9;
-                border-radius: 10px;
-                box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-                margin-bottom: 2rem;
-                transition: transform 0.3s;
-            }
-            .section-container:hover {
-                transform: scale(1.02);
+                padding: 3rem 2rem;
+                background-color: white;
+                margin-bottom: 3rem;
+                text-align: center;
             }
             .title {
-                font-size: 2.5rem;
-                color: #2C3E50;
+                font-size: 3.5rem;
+                color: #1E1E1E;
                 text-align: center;
+                font-weight: 800;
+                margin-bottom: 0.5rem;
+            }
+            .subheader {
+                font-size: 1.8rem;
+                color: #666;
+                text-align: center;
+                margin-bottom: 2rem;
+                font-weight: 400;
+            }
+            .stats-container {
+                display: flex;
+                justify-content: center;
+                gap: 2rem;
+                margin: 3rem 0;
+            }
+            .stat-item {
+                text-align: center;
+            }
+            .stat-number {
+                font-size: 2.5rem;
+                color: #0066EE;
+                font-weight: 700;
+            }
+            .stat-label {
+                color: #666;
+                font-size: 1.2rem;
+            }
+            .steps-container {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+                margin: 3rem 0;
+            }
+            .step-item {
+                text-align: center;
+                padding: 2rem;
+            }
+            .step-number {
+                font-size: 2rem;
+                color: #0066EE;
                 font-weight: 700;
                 margin-bottom: 1rem;
             }
-            .subheader {
+            .step-title {
                 font-size: 1.5rem;
-                color: #34495E;
-                text-align: center;
-                margin-bottom: 2rem;
-            }
-            .section-heading {
-                font-size: 2rem;
-                color: #1ABC9C;
+                color: #1E1E1E;
                 font-weight: 600;
-                margin-top: 2rem;
-                text-align: left;
+                margin-bottom: 1rem;
             }
-            .section-content {
-                font-size: 1.2rem;
-                color: #2C3E50;
+            .step-description {
+                color: #666;
+                font-size: 1.1rem;
                 line-height: 1.6;
-                margin-top: 1rem;
             }
-            .section-divider {
-                height: 2px;
-                background-color: #16A085;
-                margin: 2rem 0;
-                border-radius: 5px;
-            }
-            .start-button {
-                display: block;
-                margin: 2rem auto;
-                padding: 1rem 2rem;
-                font-size: 1.2rem;
-                background-color: #1ABC9C;
+            .cta-button {
+                background-color: #0066EE;
                 color: white;
+                padding: 1rem 3rem;
+                font-size: 1.3rem;
+                font-weight: 600;
+                border-radius: 8px;
                 border: none;
-                border-radius: 5px;
                 cursor: pointer;
-                text-align: center;
+                transition: background-color 0.3s;
             }
-            .start-button:hover {
-                background-color: #16A085;
+            .cta-button:hover {
+                background-color: #0052CC;
             }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Welcome Section
+    # Hero Section
     st.markdown("<div class='section-container'>", unsafe_allow_html=True)
-    st.markdown("<h1 class='title'>Welcome to YuMe</h1>", unsafe_allow_html=True)
-    st.markdown("<h2 class='subheader'>Your Personalized Health and Wellness Companion</h2>", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # Divider
-    st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-    # "Learn What Works" Section
-    st.markdown("<div class='section-container'>", unsafe_allow_html=True)
-    st.markdown("<h2 class='section-heading'>Learn What Works</h2>", unsafe_allow_html=True)
+    st.markdown("<h1 class='title'>#1 Health Tracking App</h1>", unsafe_allow_html=True)
+    st.markdown("<h2 class='subheader'>Reach your goals with YuMe</h2>", unsafe_allow_html=True)
+    
+    # Stats Section
     st.markdown(
         """
-        <p class='section-content'>
-        Personalized nutrition insights reveal what's working so you can make smarter choices.
-        Track your health goals, calorie intake, and nutritional insights with YuMe's intuitive interface.
-        </p>
+        <div class='stats-container'>
+            <div class='stat-item'>
+                <div class='stat-number'>3.7M+</div>
+                <div class='stat-label'>Active Users</div>
+            </div>
+            <div class='stat-item'>
+                <div class='stat-number'>18M+</div>
+                <div class='stat-label'>Products Database</div>
+            </div>
+            <div class='stat-item'>
+                <div class='stat-number'>35+</div>
+                <div class='stat-label'>Connected Apps</div>
+            </div>
+        </div>
         """,
         unsafe_allow_html=True
     )
-    st.markdown("</div>", unsafe_allow_html=True)
 
-    # Divider
-    st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-    # "Analyze Products" Section
-    st.markdown("<div class='section-container'>", unsafe_allow_html=True)
-    st.markdown("<h2 class='section-heading'>Analyze Products</h2>", unsafe_allow_html=True)
+    # Steps Section
+    st.markdown("<h2 style='text-align: center; font-size: 2rem; margin: 3rem 0;'>Hit your health goals in 1-2-3</h2>", unsafe_allow_html=True)
     st.markdown(
         """
-        <p class='section-content'>
-        Upload images of products to receive real-time ingredient analysis and tailored feedback. 
-        YuMe helps you make informed decisions about the products you consume.
-        </p>
+        <div class='steps-container'>
+            <div class='step-item'>
+                <div class='step-number'>1</div>
+                <div class='step-title'>Track Everything</div>
+                <div class='step-description'>Track nutrition, fitness & wellness with our smart AI-powered tools</div>
+            </div>
+            <div class='step-item'>
+                <div class='step-number'>2</div>
+                <div class='step-title'>Get Insights</div>
+                <div class='step-description'>Receive personalized analysis and recommendations based on your data</div>
+            </div>
+            <div class='step-item'>
+                <div class='step-number'>3</div>
+                <div class='step-title'>Achieve Results</div>
+                <div class='step-description'>Build healthy habits and reach your goals with our guidance</div>
+            </div>
+        </div>
         """,
         unsafe_allow_html=True
     )
-    st.markdown("</div>", unsafe_allow_html=True)
 
-    # Divider
-    st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
-
-    # "Personalized Recommendations" Section
-    st.markdown("<div class='section-container'>", unsafe_allow_html=True)
-    st.markdown("<h2 class='section-heading'>Personalized Recommendations</h2>", unsafe_allow_html=True)
-    st.markdown(
-        """
-        <p class='section-content'>
-        Based on your health records and preferences, get customized recommendations for better health.
-        YuMe empowers you with tools to make sustainable health choices.
-        </p>
-        """,
-        unsafe_allow_html=True
-    )
-    st.markdown("</div>", unsafe_allow_html=True)
-
-    # Final Start Button
-    if st.button("Start Exploring YuMe", key="start_button"):
-        st.session_state["show_homepage"] = False  # Switch to main interface
+    # CTA Button
+    if st.button("Start Your Journey Today", key="start_button", type="primary"):
+        st.session_state["show_homepage"] = False

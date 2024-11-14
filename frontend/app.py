@@ -1,12 +1,14 @@
 import streamlit as st
 import pyrebase
 import json
-from components.introduction import home_intro
+from components.intro2 import home_intro
 from components.home import user_home_tab
 from components.productScan import scan_tab
 from components.profile import dashboard_tab
 from components.calorie import calorie_intake_tab
 from utils.styles import apply_custom_styles
+
+st.set_page_config(layout="wide")
 
 # Firebase configuration
 firebase_config = {
@@ -28,36 +30,46 @@ with open('config/config.json', 'r') as config_file:
 BASE_URL = config['BASE_URL']
 
 def login_ui():
-    st.title("Welcome to YuMe! Let your journey begin.")
-    email = st.text_input("Enter your email")
-    password = st.text_input("Enter your password", type="password")
+    if "authenticated" not in st.session_state:
+        st.session_state["authenticated"] = False
+    if not st.session_state["authenticated"]:
+        st.title("Welcome to YuMe!")
+        st.write("Let your journey begin")
+        email = st.text_input("Enter your email")
+        password = st.text_input("Enter your password", type="password")
 
-    # Display Login and Signup buttons side by side without additional spacing
-    if st.button("Login"):
-        try:
-            user = auth.sign_in_with_email_and_password(email, password)
-            st.session_state["authenticated"] = True
-            st.session_state["user"] = user
-            # Store the Firebase ID token
-            st.session_state["id_token"] = user["idToken"]
-            st.session_state["user_id"] = email  
-            st.success("Login successful!")
-            st.experimental_rerun()  # Refresh the page after login
-        except Exception as e:
-            st.error("Invalid email or password. If you don't have an account, please sign up.")
-    if st.button("Signup"):
-        try:
-            user = auth.create_user_with_email_and_password(email, password)
-            st.success("Account created successfully! Please log in.")
-        except Exception as e:
-            if "EMAIL_EXISTS" in str(e):
-                st.error("This email is already registered. Please log in instead.")
-            elif "INVALID_EMAIL" in str(e):
-                st.error("Please enter a valid email address.")
-            elif "WEAK_PASSWORD" in str(e):
-                st.error("Password is too weak. Please enter a stronger password.")
-            else:
-                st.error("An error occurred during signup. Please try again.")
+        login_clicked = st.button("Login")
+        signup_clicked = st.button("Signup")
+
+        if login_clicked:
+            try:
+                user = auth.sign_in_with_email_and_password(email, password)
+                st.session_state["authenticated"] = True
+                st.session_state["user"] = user
+                st.session_state["id_token"] = user["idToken"]
+                st.session_state["user_id"] = email  
+                st.session_state["show_success"] = True
+            except Exception as e:
+                st.session_state["show_success"] = False
+                st.error("Invalid email or password. If you don't have an account, please sign up.")
+
+        if signup_clicked:
+            try:
+                user = auth.create_user_with_email_and_password(email, password)
+                st.success("Account created successfully! Please log in.")
+            except Exception as e:
+                if "EMAIL_EXISTS" in str(e):
+                    st.error("This email is already registered. Please log in instead.")
+                elif "INVALID_EMAIL" in str(e):
+                    st.error("Please enter a valid email address.")
+                elif "WEAK_PASSWORD" in str(e):
+                    st.error("Password is too weak. Please enter a stronger password.")
+                else:
+                    st.error("An error occurred during signup. Please try again.")
+
+    if st.session_state.get("show_success"):
+        st.success("Login successful!")
+        st.session_state["show_success"] = False  # Reset the success message
 
 def main_app():
     # Apply custom styles
@@ -94,7 +106,7 @@ def main_app():
 
 def main():
     # Check if the user is authenticated
-    if "authenticated" not in st.session_state or not st.session_state["authenticated"]:
+    if not st.session_state.get("authenticated"):
         login_ui()
     else:
         main_app()
