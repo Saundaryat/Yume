@@ -10,3 +10,7 @@ __pycache__/
 saun/
 notebook/
 data/
+app/
+.gitignore
+*key.json
+node_modules/
