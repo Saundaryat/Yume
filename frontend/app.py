@@ -1,12 +1,14 @@
 import streamlit as st
 import pyrebase
 import json
-from components.introduction import home_intro
+from components.intro2 import home_intro
 from components.home import user_home_tab
 from components.productScan import scan_tab
 from components.profile import dashboard_tab
 from components.calorie import calorie_intake_tab
 from utils.styles import apply_custom_styles
+
+st.set_page_config(layout="wide")
 
 # Firebase configuration
 firebase_config = {
@@ -28,7 +30,8 @@ with open('config/config.json', 'r') as config_file:
 BASE_URL = config['BASE_URL']
 
 def login_ui():
-    st.title("Welcome to YuMe! Let your journey begin.")
+    st.title("YuMe")
+    st.write("Let your journey begin")
     email = st.text_input("Enter your email")
     password = st.text_input("Enter your password", type="password")
 
