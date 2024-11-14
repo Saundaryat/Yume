@@ -1,11 +1,11 @@
 import streamlit as st
 import pyrebase
 import json
-from components.intro2 import home_intro
-from components.home import user_home_tab
-from components.productScan import scan_tab
-from components.profile import dashboard_tab
-from components.calorie import calorie_intake_tab
+from components.landing_page.landingPage import home_intro
+from components.core.userHome import user_home_tab
+from components.core.productScan import scan_tab
+from components.core.userProfile import dashboard_tab
+from components.core.calorieIntakeTab import calorie_intake_tab
 from utils.styles import apply_custom_styles
 
 st.set_page_config(layout="wide")

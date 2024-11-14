@@ -1,5 +1,5 @@
 import streamlit as st
-from components.integration_section import integration_section
+from components.landing_page.appIntegrationSection import integration_section
 
 def home_intro():
     st.markdown(
