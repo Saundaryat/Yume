@@ -9,6 +9,7 @@ from components.core.calorieIntakeTab import calorie_intake_tab
 from utils.styles import apply_custom_styles
 
 st.set_page_config(layout="wide")
+st.set_theme("dark")
 
 # Firebase configuration
 firebase_config = {

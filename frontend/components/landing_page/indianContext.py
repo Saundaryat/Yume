@@ -51,8 +51,8 @@ def indian_context():
         <div class="food-tracking-container">
             <div class="food-tracking-content">
                 <h1>The Indian Context!</h1>
-                <p>The first food app that caters to 1000+ Indian foods</p>
-                <p>Take a picture of your curries </p>
+                <p>The only health app that caters to 1000+ Indian foods</p>
+                <p>Take a picture of your curries  </p>
             </div>
         </div>
         """,
